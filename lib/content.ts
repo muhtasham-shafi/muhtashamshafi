@@ -11,7 +11,7 @@ export const profile = {
   intro:
     "I build robots, AI systems and websites — and I founded Miracle Robotics to turn those prototypes into technology that helps communities in Bangladesh.",
   bio: [
-    "I started with a line-following robot in 2019. Since then I've represented Bangladesh twice at the FIRST Global Challenge, joined an MIT robotics workshop, debated at the Oxford Union, and built six working prototypes aimed at real problems — floods, farming, traffic and factory work.",
+    "I started with a line-following robot in 2019. Since then I've represented Bangladesh three times at the FIRST Global Challenge, joined an MIT robotics workshop, debated at the Oxford Union, and built six working prototypes aimed at real problems — floods, farming, traffic and factory work.",
     "Today I run Miracle Robotics and take on client work building websites, AI assistants and custom hardware.",
   ],
   email: "md.muhtasham.m.shafi@gmail.com",
@@ -21,7 +21,7 @@ export const profile = {
 
 export const stats = [
   { value: "7+", label: "Years building" },
-  { value: "2×", label: "FIRST Global, Team Bangladesh" },
+  { value: "3×", label: "FIRST Global, Team Bangladesh" },
   { value: "6", label: "Working prototypes" },
 ];
 
@@ -159,6 +159,12 @@ export type Award = {
 
 export const awards: Award[] = [
   {
+    year: "2026",
+    title: "FIRST Global Challenge — Korea",
+    detail: "Team Bangladesh",
+    kind: "Competition",
+  },
+  {
     year: "2025",
     title: "FIRST Global Challenge — Panama",
     detail: "Team Bangladesh · ranked 43rd of 191 countries",
@@ -205,8 +211,8 @@ export const awards: Award[] = [
 export const timeline = [
   {
     year: "2026",
-    title: "Founded Miracle Robotics",
-    text: "Turned years of prototyping into a company building community tech for Bangladesh.",
+    title: "Miracle Robotics, and Korea",
+    text: "Turned years of prototyping into a company building community tech for Bangladesh — and represented Team Bangladesh at FIRST Global in Korea.",
     image: "/assets/img/journey/2026-miracle.jpg",
   },
   {

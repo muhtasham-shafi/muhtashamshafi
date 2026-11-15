@@ -8,10 +8,10 @@ export const metadata: Metadata = {
   description: "Competitions, olympiads and programs — FIRST Global, MIT, Oxford Union and more.",
 };
 
-const gallery = [
+const gallery: { src: string; caption: string; position?: string }[] = [
+  { src: "/assets/img/journey/2026-korea.jpg", caption: "Team Bangladesh's robot, FIRST Global Challenge, Korea 2026", position: "50% 72%" },
   { src: "/assets/img/journey/panama.jpg", caption: "FIRST Global Challenge, Panama 2025" },
   { src: "/assets/img/journey/2023-fgc-singapore.jpg", caption: "FIRST Global Challenge, Singapore 2023" },
-  { src: "/assets/img/journey/2025-hanoi.jpg", caption: "Global Youth Summit, Hanoi 2025" },
   { src: "/assets/img/journey/2022-olympiad.jpg", caption: "National Mental Math Olympiad 2022" },
 ];
 
@@ -50,7 +50,7 @@ export default function AwardsPage() {
           {gallery.map((g) => (
             <figure key={g.src}>
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-line">
-                <Image src={g.src} alt={g.caption} fill sizes="(min-width: 640px) 480px, 100vw" className="object-cover" />
+                <Image src={g.src} alt={g.caption} fill sizes="(min-width: 640px) 480px, 100vw" className="object-cover" style={g.position ? { objectPosition: g.position } : undefined} />
               </div>
               <figcaption className="mt-2 text-sm text-muted">{g.caption}</figcaption>
             </figure>
