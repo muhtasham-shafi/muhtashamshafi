@@ -8,7 +8,8 @@ export const metadata: Metadata = {
   description: "Competitions, olympiads and programs — FIRST Global, MIT, Oxford Union and more.",
 };
 
-const gallery: { src: string; caption: string; position?: string }[] = [
+const gallery: { src: string; caption: string; position?: string; wide?: boolean }[] = [
+  { src: "/assets/img/journey/2026-korea-team.webp", caption: "Team Bangladesh at the FIRST Global Challenge, Korea 2026", wide: true },
   { src: "/assets/img/journey/2026-korea.jpg", caption: "Team Bangladesh's robot, FIRST Global Challenge, Korea 2026", position: "50% 72%" },
   { src: "/assets/img/journey/panama.jpg", caption: "FIRST Global Challenge, Panama 2025" },
   { src: "/assets/img/journey/2023-fgc-singapore.jpg", caption: "FIRST Global Challenge, Singapore 2023" },
@@ -48,9 +49,9 @@ export default function AwardsPage() {
       <Section title="Gallery">
         <div className="grid gap-4 sm:grid-cols-2">
           {gallery.map((g) => (
-            <figure key={g.src}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-line">
-                <Image src={g.src} alt={g.caption} fill sizes="(min-width: 640px) 480px, 100vw" className="object-cover" style={g.position ? { objectPosition: g.position } : undefined} />
+            <figure key={g.src} className={g.wide ? "sm:col-span-2" : undefined}>
+              <div className={`relative overflow-hidden rounded-2xl bg-line ${g.wide ? "aspect-[4/3] sm:aspect-[16/10]" : "aspect-[4/3]"}`}>
+                <Image src={g.src} alt={g.caption} fill priority={g.wide} sizes={g.wide ? "(min-width: 640px) 976px, 100vw" : "(min-width: 640px) 480px, 100vw"} className="object-cover" style={g.position ? { objectPosition: g.position } : undefined} />
               </div>
               <figcaption className="mt-2 text-sm text-muted">{g.caption}</figcaption>
             </figure>
