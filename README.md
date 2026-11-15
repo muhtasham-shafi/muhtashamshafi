@@ -1,40 +1,30 @@
-# Muhtasham Shafi — God-Level Portfolio 2026
+# muhtashamshafi.com
 
-An "Industrial Luxe" Next.js application featuring advanced engineering aesthetics, modular system architecture, and premium interactions.
+Personal site of Muhtasham Shafi — robotics, AI and web projects, and Miracle Robotics.
 
-## 🏗 System Architecture
-- **Framework:** [Next.js 16 (App Router)](https://nextjs.org/)
-- **Engine:** [React 19](https://react.dev/)
-- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
-- **Motion:** [Framer Motion](https://www.framer.com/motion/)
-- **Deployment:** [Vercel](https://muhtashamshafi.vercel.app/)
+Built with Next.js 16 (App Router), React 19 and Tailwind CSS 4. Deployed on Vercel.
 
-## ✨ Key Features
-- **Magnetic UX:** Tactical UI elements with magnetic attraction and custom cursor logic.
-- **Terminal Scramble:** Decryption-style text effects for a high-tech "blueprint" feel.
-- **System Diagnostics:** Live system status indicators and diagnostic data overlays.
-- **Responsive Engineering:** Fluid layouts optimized for both mobile and desktop performance.
+## Editing content
 
-## 🛠 Project Structure
-- `/app`: App Router core and global styles.
-- `/components`: Modular UI components (Hero, About, Services, Journey, etc.).
-- `/public/assets`: High-fidelity assets (1st.jpg, 2nd.jpg) and project imagery.
+You almost never need to touch the page code:
 
-## 🚀 Deployment
-This project is configured for seamless deployment on Vercel.
+- `lib/content.ts` — bio, stats, projects, client work, services, awards, journey timeline, Miracle Robotics, press links, socials.
+- `lib/posts.ts` — blog posts (add a new object to publish a post).
+- `public/assets/img/` — images.
 
-### Local Development
+## Pages
+
+| Route | What |
+| --- | --- |
+| `/` | Home: intro, selected work, services, awards, Miracle Robotics, journey, writing, contact |
+| `/work` | Full portfolio: prototypes, client work, services |
+| `/awards` | Awards, achievements and photo gallery |
+| `/miracle-robotics` | The company: mission, focus areas, projects |
+| `/writing` | Blog posts, plus press mentions once added |
+
+## Local development
+
 ```bash
+npm install
 npm run dev
 ```
-
-### Production Sync
-```bash
-git add .
-git commit -m "update"
-git push origin main
-```
-
-## 📜 Credits & Identity
-Designed and Engineered by **Muhtasham Shafi** — System Architect.
-*Building the future, one prototype at a time.*
