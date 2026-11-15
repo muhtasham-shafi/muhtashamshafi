@@ -1,27 +1,32 @@
-import type { Metadata } from "next";
-import { Instrument_Serif, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Instrument_Serif, Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
+export const viewport: Viewport = {
+  themeColor: "#fffcf2",
+};
+
 const instrumentSerif = Instrument_Serif({
-  variable: "--font-serif",
+  variable: "--font-instrument-serif",
   weight: "400",
   subsets: ["latin"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Muhtasham Shafi | Student Innovator & Developer",
+  title: {
+    default: "Muhtasham Shafi | Student Innovator & Developer",
+    template: "%s | Muhtasham Shafi",
+  },
   description:
-    "Portfolio of Muhtasham Shafi - young Bangladeshi engineer building robotics, AI, and software for real-world impact.",
+    "Portfolio of Muhtasham Shafi — young Bangladeshi engineer building robotics, AI, and software for real-world impact. Founder of Miracle Robotics.",
 
   metadataBase: new URL("https://muhtashamshafi.com"),
 
@@ -41,8 +46,8 @@ export const metadata: Metadata = {
   },
 
   twitter: {
-  card: "summary_large_image",
-},
+    card: "summary_large_image",
+  },
 
   icons: {
     icon: "/favicon.ico",
@@ -55,9 +60,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${instrumentSerif.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} font-sans antialiased bg-ink text-text`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body
+        className={`${instrumentSerif.variable} ${inter.variable} font-sans antialiased bg-bg text-text`}
+      >
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
