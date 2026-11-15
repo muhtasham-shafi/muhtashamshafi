@@ -1,41 +1,30 @@
 @import "tailwindcss";
 
 /*
- * Minimal palette: neutral greys plus one accent, used sparingly
- * (small labels, hover, focus). Light is the default; dark follows the
- * system unless the visitor picks one with the toggle (data-theme on <html>).
+ * Palette (coolors.co): FFFCF2 · CCC5B9 · 403D39 · 252422 · EB5E28
+ * Warm paper and charcoal with one orange accent, used sparingly
+ * (labels, hover, focus). The accent is a deeper shade of EB5E28 so
+ * small text stays readable (WCAG AA). Light is the default; dark is
+ * opt-in via the toggle (data-theme on <html>).
  */
 :root {
-  --bg: #ffffff;
-  --surface: #fafafa;
-  --text: #111111;
-  --muted: #6b6b6b;
-  --line: #ebebeb;
-  --accent: #0b6e8a;
+  --bg: #fffcf2;
+  --surface: #f8f4e8;
+  --text: #252422;
+  --muted: #6b655d;
+  --line: #e6e0d4;
+  --accent: #b8461c;
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --bg: #0b0b0c;
-  --surface: #121214;
-  --text: #ededed;
-  --muted: #8f8f94;
-  --line: #222225;
-  --accent: #5cc8e4;
+  --bg: #252422;
+  --surface: #2d2b29;
+  --text: #fffcf2;
+  --muted: #a8a196;
+  --line: #403d39;
+  --accent: #f07a4a;
   color-scheme: dark;
-}
-
-/* No-JS fallback: follow the system when no theme has been set. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --bg: #0b0b0c;
-    --surface: #121214;
-    --text: #ededed;
-    --muted: #8f8f94;
-    --line: #222225;
-    --accent: #5cc8e4;
-    color-scheme: dark;
-  }
 }
 
 @theme inline {

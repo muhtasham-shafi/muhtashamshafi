@@ -6,10 +6,7 @@ import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
-  ],
+  themeColor: "#fffcf2",
 };
 
 const instrumentSerif = Instrument_Serif({

@@ -1,5 +1,5 @@
 /**
  * Runs before paint (inlined in <head>) so the page never flashes the wrong
- * theme. Uses the visitor's saved choice, otherwise their system setting.
+ * theme. The site is light by default; dark only if the visitor chose it.
  */
-export const themeScript = `(function(){try{var s=localStorage.getItem('theme');var d=document.documentElement;var m=window.matchMedia('(prefers-color-scheme: dark)');d.dataset.theme=s||(m.matches?'dark':'light');if(!s){m.addEventListener('change',function(e){if(!localStorage.getItem('theme'))d.dataset.theme=e.matches?'dark':'light';});}}catch(e){}})();`;
+export const themeScript = `(function(){try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='dark'?'dark':'light';}catch(e){}})();`;
