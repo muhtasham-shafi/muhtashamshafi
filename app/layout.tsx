@@ -1,8 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { themeScript } from "@/lib/theme";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
+  ],
+};
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
@@ -55,7 +63,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${instrumentSerif.variable} ${inter.variable} font-sans antialiased bg-bg text-text`}
       >

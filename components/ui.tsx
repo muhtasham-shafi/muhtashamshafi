@@ -95,7 +95,7 @@ export function Button({
 
 export function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent">
+    <span className="inline-block rounded-full border border-line px-2.5 py-0.5 text-xs text-muted">
       {children}
     </span>
   );

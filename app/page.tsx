@@ -146,7 +146,7 @@ export default function Home() {
         <ol className="relative space-y-8 border-l border-line pl-6 sm:pl-8">
           {timeline.map((t) => (
             <li key={t.year} className="relative">
-              <span className="absolute -left-[31px] top-2 h-2.5 w-2.5 rounded-full bg-accent sm:-left-[39px]" />
+              <span className="absolute -left-[31px] top-2 h-2.5 w-2.5 rounded-full bg-text sm:-left-[39px]" />
               <p className="font-serif text-2xl leading-none text-muted">{t.year}</p>
               <h3 className="mt-2 text-lg font-semibold">{t.title}</h3>
               <p className="mt-1 max-w-2xl text-muted">{t.text}</p>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { name: "Work", href: "/work" },
@@ -43,16 +44,20 @@ export default function Navbar() {
           >
             Get in touch
           </Link>
+          <ThemeToggle />
         </div>
 
+        <div className="flex items-center gap-1 md:hidden">
+        <ThemeToggle />
         <button
-          className="-mr-2 p-2 md:hidden"
+          className="-mr-2 p-2"
           onClick={() => setOpen(!open)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
+        </div>
       </nav>
 
       {open && (
