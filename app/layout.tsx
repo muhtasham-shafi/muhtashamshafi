@@ -6,7 +6,7 @@ import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
 export const viewport: Viewport = {
-  themeColor: "#fffcf2",
+  themeColor: "#f7fafd",
 };
 
 const instrumentSerif = Instrument_Serif({
