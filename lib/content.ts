@@ -14,7 +14,7 @@ export const profile = {
     "I started with a line-following robot in 2019. Since then I've represented Bangladesh three times at the FIRST Global Challenge, joined an MIT robotics workshop, debated at the Oxford Union, and built six working prototypes aimed at real problems — floods, farming, traffic and factory work.",
     "Today I run Miracle Robotics and take on client work building websites, AI assistants and custom hardware.",
   ],
-  email: "md.muhtasham.m.shafi@gmail.com",
+  email: "me@muhtashamshafi.com",
   photo: "/assets/img/1st.jpg",
   photoAlt: "/assets/img/2nd.jpg",
 };
@@ -119,6 +119,71 @@ export const projects: Project[] = [
       { value: "−85%", label: "Queue length" },
     ],
     image: "/assets/img/p06-nfc-toll.jpg",
+  },
+];
+
+export type Build = {
+  title: string;
+  year: string;
+  category: string;
+  summary: string;
+  result?: string;
+  image?: string;
+  /** CSS object-position, to keep the subject in frame when cropped. */
+  position?: string;
+};
+
+/** Competition robots, software and earlier builds (shown on the Work page). */
+export const builds: Build[] = [
+  {
+    title: "FIRST Global robot — Korea",
+    year: "2026",
+    category: "Competition robot",
+    summary:
+      "Team Bangladesh's robot for the FIRST Global Challenge in Korea — designed, built, wired and programmed by our student team.",
+    image: "/assets/img/journey/2026-korea.jpg",
+    position: "50% 72%",
+  },
+  {
+    title: "FIRST Global robot — Panama",
+    year: "2025",
+    category: "Competition robot",
+    summary:
+      "An aluminium-frame competition robot built for the FIRST Global Challenge in Panama City.",
+    result: "43rd of 191 countries",
+    image: "/assets/img/journey/2023-innovation.jpg",
+    position: "50% 70%",
+  },
+  {
+    title: "FIRST Global robot — Singapore",
+    year: "2023",
+    category: "Competition robot",
+    summary:
+      "Built for the “Hydrogen Horizons” challenge — my first time representing Bangladesh internationally.",
+    result: "36th of 186 countries",
+    image: "/assets/img/journey/2023-fgc-singapore.jpg",
+  },
+  {
+    title: "Jarvis",
+    year: "Ongoing",
+    category: "AI assistant",
+    summary:
+      "My own voice-aware AI assistant. It keeps context across a conversation and connects to home automation and web tools.",
+  },
+  {
+    title: "AI home automation",
+    year: "2022",
+    category: "Smart home",
+    summary:
+      "My first complete system: sensors, relays and software that switch home appliances automatically — the starting point for the AI Smart Home prototype.",
+  },
+  {
+    title: "Line-following robot",
+    year: "2019",
+    category: "First build",
+    summary:
+      "An Arduino robot with three IR sensors that tracks a black line. The first time I saw code make something move.",
+    image: "/assets/img/journey/2019-lfr.jpg",
   },
 ];
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import type { Award, Project } from "@/lib/content";
+import type { Award, Build, Project } from "@/lib/content";
 import type { Post } from "@/lib/posts";
 import { formatDate } from "@/lib/posts";
 import { cn } from "@/lib/utils";
@@ -130,6 +130,37 @@ export function ProjectCard({ project }: { project: Project }) {
             </div>
           ))}
         </dl>
+      </div>
+    </article>
+  );
+}
+
+export function BuildCard({ build }: { build: Build }) {
+  return (
+    <article className="flex flex-col overflow-hidden rounded-2xl border border-line bg-bg">
+      <div className="relative aspect-[4/3] bg-surface">
+        {build.image ? (
+          <Image
+            src={build.image}
+            alt={build.title}
+            fill
+            sizes="(min-width: 768px) 320px, 100vw"
+            className="object-cover"
+            style={build.position ? { objectPosition: build.position } : undefined}
+          />
+        ) : (
+          <div className="flex h-full items-end p-6">
+            <span className="font-serif text-4xl leading-tight text-accent">{build.title}</span>
+          </div>
+        )}
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <p className="text-xs text-muted">
+          {build.year} · {build.category}
+        </p>
+        <h3 className="mt-2 font-semibold">{build.title}</h3>
+        <p className="mt-2 flex-1 text-sm text-muted">{build.summary}</p>
+        {build.result && <p className="mt-4 text-sm font-medium text-accent">{build.result}</p>}
       </div>
     </article>
   );

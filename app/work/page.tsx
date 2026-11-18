@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { clientWork, projects, services } from "@/lib/content";
-import { ArrowLink, Button, PageHeader, ProjectCard, Section } from "@/components/ui";
+import { builds, clientWork, projects, services } from "@/lib/content";
+import { ArrowLink, BuildCard, Button, PageHeader, ProjectCard, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -21,6 +21,17 @@ export default function WorkPage() {
         <div className="grid gap-6 md:grid-cols-2">
           {projects.map((p) => (
             <ProjectCard key={p.slug} project={p} />
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="Robots & other builds"
+        intro="Competition robots for Team Bangladesh, my AI assistant, and the builds that got me here."
+      >
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {builds.map((b) => (
+            <BuildCard key={b.title} build={b} />
           ))}
         </div>
       </Section>
