@@ -352,6 +352,12 @@ export const miracleRobotics = {
       cta: "Ask about 3D printing",
       subject: "3D printing",
     },
+    {
+      title: "Personalized prints",
+      text: "Nameplates, desk signs, name tags, keychains and gifts printed with the name, logo or message you choose. Tell us what it should say and the size you need.",
+      cta: "Order a personalized print",
+      subject: "Personalized print",
+    },
   ],
   // Which projects to feature on the Miracle Robotics page (by slug).
   projectSlugs: ["flood-bridge", "drone", "irrigation", "robotic-arm"],
