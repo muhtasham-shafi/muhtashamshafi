@@ -32,7 +32,7 @@ export function Section({
       <Container className="grid gap-x-10 gap-y-8 py-16 sm:py-20 lg:grid-cols-12">
         <header className="lg:col-span-4">
           <div className="lg:sticky lg:top-24">
-            <h2 className="type-heading text-[1.75rem] sm:text-[2.125rem]">{title}</h2>
+            <h2 className="font-serif text-[2.25rem] leading-none sm:text-[2.75rem]">{title}</h2>
             {intro && <p className="mt-3 max-w-sm text-muted">{intro}</p>}
             {action && (
               <p className="mt-5">
@@ -59,7 +59,7 @@ export function PageHeader({
   return (
     <Container className="pb-14 pt-14 sm:pb-20 sm:pt-20">
       {badge && <div className="assemble mb-8">{badge}</div>}
-      <h1 className="assemble type-display max-w-[16ch] text-[clamp(2.1rem,8vw,5.75rem)] hyphens-auto">{title}</h1>
+      <h1 className="assemble max-w-[18ch] font-serif text-[clamp(2.75rem,8vw,6rem)] leading-[1.02]">{title}</h1>
       {intro && (
         <p className="assemble mt-6 max-w-[58ch] text-lg text-muted sm:text-xl" style={{ "--d": "120ms" } as React.CSSProperties}>
           {intro}
@@ -175,6 +175,53 @@ export function ProjectEntry({ project }: { project: Project }) {
         <p className="mt-2 max-w-[60ch] text-muted">{project.summary}</p>
         <SpecSheet className="mt-5" rows={project.metrics.map((m) => ({ key: m.label, value: m.value }))} />
       </div>
+    </article>
+  );
+}
+
+/** Printer's crop marks at the four corners of a plate. */
+export function CropMarks() {
+  const mark = "pointer-events-none absolute h-3 w-3 border-text/45";
+  return (
+    <>
+      <span aria-hidden className={cn(mark, "-left-2 -top-2 border-l border-t")} />
+      <span aria-hidden className={cn(mark, "-right-2 -top-2 border-r border-t")} />
+      <span aria-hidden className={cn(mark, "-bottom-2 -left-2 border-b border-l")} />
+      <span aria-hidden className={cn(mark, "-bottom-2 -right-2 border-b border-r")} />
+    </>
+  );
+}
+
+/** A prototype as a cyanotype plate; hover develops the real photo. */
+export function ProjectPlate({ project }: { project: Project }) {
+  return (
+    <article className="group">
+      <div className="relative">
+        <CropMarks />
+        <div className="cyanotype aspect-[4/3]">
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            sizes="(min-width: 1024px) 340px, (min-width: 640px) 45vw, 100vw"
+            className="object-cover"
+          />
+        </div>
+      </div>
+      <p className="type-label mt-5 flex flex-wrap gap-x-3 text-muted">
+        <span>{project.category}</span>
+        <span className="text-accent">{project.status}</span>
+      </p>
+      <h3 className="type-heading mt-1 text-xl">{project.title}</h3>
+      <p className="mt-2 text-[0.9375rem] text-muted">{project.summary}</p>
+      <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+        {project.metrics.map((m) => (
+          <div key={m.label} className="flex flex-col-reverse">
+            <dt className="type-label text-sm text-muted">{m.label}</dt>
+            <dd className="font-serif text-3xl leading-none tabular-nums">{m.value}</dd>
+          </div>
+        ))}
+      </dl>
     </article>
   );
 }

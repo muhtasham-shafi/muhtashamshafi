@@ -146,6 +146,100 @@
   }
 }
 
+/*
+ * The blueprint sheet: Miracle navy with a drafting grid (fine every 24px,
+ * heavier every 120px). Same in light and dark themes.
+ */
+.blueprint {
+  background-color: #052c77;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.12) 1px, transparent 1px),
+    linear-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+  color: #f4f6fa;
+  & :focus-visible {
+    outline-color: #fff;
+  }
+  & ::selection {
+    background: #fff;
+    color: #052c77;
+  }
+}
+
+/*
+ * Cyanotype plates: the photo in greyscale with navy screened over it, so
+ * shadows print blue and highlights stay white. Hover or focus develops the
+ * real photo; touch screens show the real photo straight away.
+ */
+.cyanotype {
+  position: relative;
+  overflow: hidden;
+  background: #052c77;
+  & img {
+    filter: grayscale(1) contrast(1.15) brightness(1.05);
+    transition: filter 500ms ease;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #052c77;
+    mix-blend-mode: screen;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+  }
+}
+@media (hover: hover) {
+  .group:hover .cyanotype img,
+  .group:focus-within .cyanotype img {
+    filter: none;
+  }
+  .group:hover .cyanotype::after,
+  .group:focus-within .cyanotype::after {
+    opacity: 0;
+  }
+}
+@media (hover: none) {
+  .cyanotype img {
+    filter: none;
+  }
+  .cyanotype::after {
+    opacity: 0;
+  }
+}
+
+/* Leader lines and dimension lines draw themselves as the hero assembles. */
+@media (prefers-reduced-motion: no-preference) {
+  .draw-x,
+  .draw-c {
+    animation: draw 650ms cubic-bezier(0.6, 0, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .draw-x {
+    transform-origin: left center;
+  }
+  .draw-c {
+    transform-origin: center;
+  }
+}
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cyanotype img,
+  .cyanotype::after {
+    transition: none;
+  }
+}
+
 /* Theme toggle shows the icon for the theme you'd switch to. */
 .icon-sun { display: none; }
 :root[data-theme="dark"] .icon-sun { display: block; }
