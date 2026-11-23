@@ -33,6 +33,10 @@ const graph = {
       description: profile.intro,
       email: `mailto:${profile.email}`,
       nationality: { "@type": "Country", name: "Bangladesh" },
+      homeLocation: {
+        "@type": "Place",
+        address: { "@type": "PostalAddress", addressLocality: "Dhaka", addressCountry: "BD" },
+      },
       knowsAbout: ["Robotics", "Artificial intelligence", "Embedded systems", "Web development"],
       worksFor: { "@id": orgId },
       sameAs: profileLinks,
