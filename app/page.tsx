@@ -111,9 +111,9 @@ export default function Home() {
       <Section
         title="Prototypes"
         intro="Working machines, each aimed at a real problem in Bangladesh."
-        action={{ label: `All ${projects.length} prototypes`, href: "/work" }}
+        action={{ label: "Competition robots and more builds", href: "/work" }}
       >
-        {projects.slice(0, 4).map((p) => (
+        {projects.map((p) => (
           <ProjectEntry key={p.slug} project={p} />
         ))}
       </Section>
@@ -172,6 +172,12 @@ export default function Home() {
               <h2 className="type-display mt-8 text-[clamp(2.25rem,5.5vw,3.75rem)]">{miracleRobotics.name}</h2>
               <p className="mt-4 max-w-[40ch] text-xl">{miracleRobotics.oneLiner}</p>
               <p className="mt-4 max-w-[56ch] text-on-navy/75">{miracleRobotics.mission}</p>
+              <p className="mt-4">
+                Services:{" "}
+                <Link href="/miracle-robotics#services" className="link text-on-navy hover:text-white!">
+                  {miracleRobotics.services.map((s) => s.title).join(", ")}
+                </Link>
+              </p>
               <p className="type-label mt-6 text-on-navy/60">
                 Founded {miracleRobotics.founded} in {profile.location}
               </p>
@@ -204,9 +210,16 @@ export default function Home() {
                 aria-hidden
                 className={`absolute left-[4px] top-[0.5rem] h-3 w-3 rounded-full ${i === 0 ? "bg-signal" : "bg-bg"}`}
               />
-              <p className="type-heading text-2xl tabular-nums">{t.year}</p>
-              <h3 className="mt-1 text-lg font-semibold">{t.title}</h3>
-              <p className="mt-1 max-w-[60ch] text-muted">{t.text}</p>
+              <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_11rem] sm:gap-6">
+                <div>
+                  <p className="type-heading text-2xl tabular-nums">{t.year}</p>
+                  <h3 className="mt-1 text-lg font-semibold">{t.title}</h3>
+                  <p className="mt-1 max-w-[60ch] text-muted">{t.text}</p>
+                </div>
+                <div className="relative aspect-[4/3] max-w-[15rem] overflow-hidden rounded-[3px] bg-surface sm:mt-1 sm:max-w-none">
+                  <Image src={t.image} alt={t.title} fill sizes="(min-width: 640px) 176px, 240px" className="object-cover" />
+                </div>
+              </div>
             </li>
           ))}
         </ol>

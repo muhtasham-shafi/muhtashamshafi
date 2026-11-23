@@ -15,6 +15,7 @@ const gallery: { src: string; caption: string; position?: string; wide?: boolean
   { src: "/assets/img/journey/2026-korea-team.webp", caption: "Team Bangladesh at the FIRST Global Challenge, Korea 2026", wide: true },
   { src: "/assets/img/journey/2026-korea.jpg", caption: "Team Bangladesh's robot, FIRST Global Challenge, Korea 2026", position: "50% 72%" },
   { src: "/assets/img/journey/panama.jpg", caption: "FIRST Global Challenge, Panama 2025" },
+  { src: "/assets/img/journey/2025-hanoi.jpg", caption: "Global Youth Summit, Hanoi 2025" },
   { src: "/assets/img/journey/2023-fgc-singapore.jpg", caption: "FIRST Global Challenge, Singapore 2023" },
   { src: "/assets/img/journey/2022-olympiad.jpg", caption: "National Mental Math Olympiad 2022" },
 ];

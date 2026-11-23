@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#ffffff"/>
-  <svg x="5" y="5" width="54" height="54" viewBox="510 490 906 614">
-    <path fill="#0058e1" fill-rule="evenodd" d="M588 564L723 496L1097 729L969 812L736 664L736 963L610 1097L534 1036Q512 1003 522 969L588 898ZM572 987a37 37 0 1 0 74 0a37 37 0 1 0 -74 0Z"/>
-    <path fill="#052c77" fill-rule="evenodd" d="M989 632L1202 496L1338 564L1338 898L1407 969Q1414 1005 1394 1033L1317 1097L1189 963L1189 671L1121 713ZM1279 987a37 37 0 1 0 74 0a37 37 0 1 0 -74 0Z"/>
-    <path fill="#052c77" d="M807 780L963 881L963 1051L807 947Z"/>
-    <path fill="#0058e1" d="M963 881L1118 780L1118 947L963 1051Z"/>
-  </svg>
-</svg>

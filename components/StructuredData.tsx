@@ -49,6 +49,10 @@ const graph = {
       description: miracleRobotics.oneLiner,
       foundingDate: miracleRobotics.founded,
       founder: { "@id": personId },
+      makesOffer: miracleRobotics.services.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: s.title, description: s.text },
+      })),
     },
   ],
 };

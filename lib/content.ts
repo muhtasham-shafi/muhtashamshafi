@@ -344,6 +344,15 @@ export const miracleRobotics = {
       text: "Automation for factories and faster, cashless infrastructure like NFC tolling.",
     },
   ],
+  // Services Miracle Robotics offers to customers. Add more here.
+  services: [
+    {
+      title: "3D printing",
+      text: "Custom parts, prototypes and models printed to order — robot brackets, enclosures, replacement parts and one-off designs. Send a 3D file, or describe the part and we'll model it.",
+      cta: "Ask about 3D printing",
+      subject: "3D printing",
+    },
+  ],
   // Which projects to feature on the Miracle Robotics page (by slug).
   projectSlugs: ["flood-bridge", "drone", "irrigation", "robotic-arm"],
   image: "/assets/img/journey/2026-miracle.jpg",

@@ -65,6 +65,25 @@ export default function MiracleRoboticsPage() {
         </ul>
       </Section>
 
+      <Section id="services" title="Services" intro="Work we take on for customers today.">
+        <ul className="border-b border-line">
+          {miracleRobotics.services.map((s) => (
+            <li
+              key={s.title}
+              className="grid gap-1.5 border-t border-line py-6 sm:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] sm:gap-8"
+            >
+              <h3 className="type-heading text-xl">{s.title}</h3>
+              <div>
+                <p className="max-w-[56ch] text-muted">{s.text}</p>
+                <div className="mt-5">
+                  <Button href={`mailto:${profile.email}?subject=${encodeURIComponent(s.subject)}`}>{s.cta}</Button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
       <Section title="What we're building">
         {featured.map((p) => (
           <ProjectEntry key={p.slug} project={p} />
