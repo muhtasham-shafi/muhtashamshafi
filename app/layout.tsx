@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StructuredData from "@/components/StructuredData";
 import { themeScript } from "@/lib/theme";
+import { openGraphDefaults, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -28,22 +30,9 @@ export const metadata: Metadata = {
   description:
     "Portfolio of Muhtasham Shafi — young Bangladeshi engineer building robotics, AI, and software for real-world impact. Founder of Miracle Robotics.",
 
-  metadataBase: new URL("https://muhtashamshafi.com"),
+  metadataBase: new URL(siteUrl),
 
-  openGraph: {
-    title: "Muhtasham Shafi",
-    description: "Robotics, AI & Software Projects",
-    url: "https://muhtashamshafi.com",
-    siteName: "Muhtasham Shafi Portfolio",
-    type: "website",
-    images: [
-      {
-        url: "https://muhtashamshafi.com/og-v2.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
+  openGraph: { ...openGraphDefaults, url: siteUrl },
 
   twitter: {
     card: "summary_large_image",
@@ -67,6 +56,7 @@ export default function RootLayout({
       <body
         className={`${instrumentSerif.variable} ${inter.variable} font-sans antialiased bg-bg text-text`}
       >
+        <StructuredData />
         <Navbar />
         <main>{children}</main>
         <Footer />

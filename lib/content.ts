@@ -193,7 +193,7 @@ export const clientWork = [
     summary:
       "Company website and platform for one of Bangladesh's leading tanker logistics fleets.",
     href: "https://panamtanker.com/",
-    image: "/assets/img/panamtanker.png",
+    image: "/assets/img/panamtanker.jpg",
   },
 ];
 

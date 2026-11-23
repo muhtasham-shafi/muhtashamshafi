@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { openGraphDefaults } from "@/lib/site";
 import { ArrowUpRight } from "lucide-react";
 import { press } from "@/lib/content";
 import { formatDate, sortedPosts } from "@/lib/posts";
 import { PageHeader, PostList, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/writing" },
+  openGraph: { ...openGraphDefaults, url: "/writing" },
   title: "Writing & press",
   description: "Notes, updates and press coverage from Muhtasham Shafi.",
 };

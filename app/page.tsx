@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
@@ -14,6 +15,10 @@ import {
 } from "@/lib/content";
 import { sortedPosts } from "@/lib/posts";
 import { ArrowLink, AwardList, Button, Container, PostList, ProjectCard, Section } from "@/components/ui";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

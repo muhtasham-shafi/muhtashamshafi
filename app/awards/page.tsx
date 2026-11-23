@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { openGraphDefaults } from "@/lib/site";
 import Image from "next/image";
 import { awards } from "@/lib/content";
 import { AwardList, PageHeader, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/awards" },
+  openGraph: { ...openGraphDefaults, url: "/awards" },
   title: "Awards & achievements",
   description: "Competitions, olympiads and programs — FIRST Global, MIT, Oxford Union and more.",
 };

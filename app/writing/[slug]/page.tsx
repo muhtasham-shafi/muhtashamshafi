@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { openGraphDefaults } from "@/lib/site";
 import { formatDate, getPost, posts } from "@/lib/posts";
 import { ArrowLink, Container } from "@/components/ui";
 
@@ -11,7 +12,19 @@ export async function generateMetadata(props: PageProps<"/writing/[slug]">): Pro
   const { slug } = await props.params;
   const post = getPost(slug);
   if (!post) return {};
-  return { title: post.title, description: post.summary };
+  return {
+    title: post.title,
+    description: post.summary,
+    alternates: { canonical: `/writing/${post.slug}` },
+    openGraph: {
+      ...openGraphDefaults,
+      type: "article",
+      title: post.title,
+      description: post.summary,
+      url: `/writing/${post.slug}`,
+      publishedTime: post.date,
+    },
+  };
 }
 
 export default async function PostPage(props: PageProps<"/writing/[slug]">) {

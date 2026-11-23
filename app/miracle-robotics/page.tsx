@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { openGraphDefaults } from "@/lib/site";
 import Image from "next/image";
 import { miracleRobotics, profile, projects } from "@/lib/content";
 import { Button, Container, PageHeader, ProjectCard, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/miracle-robotics" },
+  openGraph: { ...openGraphDefaults, url: "/miracle-robotics" },
   title: "Miracle Robotics",
   description: miracleRobotics.oneLiner,
 };

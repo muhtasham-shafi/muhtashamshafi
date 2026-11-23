@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { openGraphDefaults } from "@/lib/site";
 import Image from "next/image";
 import { builds, clientWork, projects, services } from "@/lib/content";
 import { ArrowLink, BuildCard, Button, PageHeader, ProjectCard, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/work" },
+  openGraph: { ...openGraphDefaults, url: "/work" },
   title: "Work",
   description: "Robotics, AI and web projects by Muhtasham Shafi.",
 };

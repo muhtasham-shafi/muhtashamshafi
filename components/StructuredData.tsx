@@ -1,0 +1,59 @@
+import { miracleRobotics, profile, socials } from "@/lib/content";
+import { siteUrl } from "@/lib/site";
+
+/**
+ * Schema.org data so search engines understand who the site is about —
+ * this is what can earn a richer result when someone searches the name.
+ * Validate changes at https://validator.schema.org/
+ */
+const personId = `${siteUrl}/#person`;
+const orgId = `${siteUrl}/#miracle-robotics`;
+
+// Public profiles only (not chat links like WhatsApp).
+const profileLinks = socials.filter((s) => s.name !== "WhatsApp").map((s) => s.href);
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: profile.name,
+      publisher: { "@id": personId },
+    },
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: profile.name,
+      alternateName: "Md. Muhtasham Musharof Shafi",
+      url: siteUrl,
+      image: `${siteUrl}${profile.photo}`,
+      jobTitle: "Founder, Miracle Robotics",
+      description: profile.intro,
+      email: `mailto:${profile.email}`,
+      nationality: { "@type": "Country", name: "Bangladesh" },
+      knowsAbout: ["Robotics", "Artificial intelligence", "Embedded systems", "Web development"],
+      worksFor: { "@id": orgId },
+      sameAs: profileLinks,
+    },
+    {
+      "@type": "Organization",
+      "@id": orgId,
+      name: "Miracle Robotics",
+      url: `${siteUrl}/miracle-robotics`,
+      description: miracleRobotics.oneLiner,
+      foundingDate: miracleRobotics.founded,
+      founder: { "@id": personId },
+    },
+  ],
+};
+
+export default function StructuredData() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph).replace(/</g, "\\u003c") }}
+    />
+  );
+}
