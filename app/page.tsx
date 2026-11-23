@@ -17,14 +17,14 @@ import {
 } from "@/lib/content";
 import { sortedPosts } from "@/lib/posts";
 import {
+  AwardList,
   Container,
   PostList,
+  ProjectPlate,
   Section,
 } from "@/components/ui";
 import MiracleMark from "@/components/MiracleMark";
 import AssemblyJourney from "@/components/AssemblyJourney";
-import DrawingSet from "@/components/DrawingSet";
-import PassportStamps from "@/components/PassportStamps";
 import PlotterHero from "@/components/PlotterHero";
 import {
   DroneSketch,
@@ -228,11 +228,18 @@ export default function Home() {
         </div>
       </Section>
 
-      <DrawingSet
-        projects={projects}
+      <Section
+        title="Prototypes"
         intro="Working machines, each aimed at a real problem in Bangladesh."
+        action={{ label: "Competition robots and more builds", href: "/work" }}
         aside={<DroneSketch className="text-text" />}
-      />
+      >
+        <div className="grid gap-x-10 gap-y-14 px-2 sm:grid-cols-2">
+          {projects.map((p) => (
+            <ProjectPlate key={p.slug} project={p} />
+          ))}
+        </div>
+      </Section>
 
       <Section
         id="services"
@@ -278,7 +285,7 @@ export default function Home() {
         action={{ label: "All awards", href: "/awards" }}
         aside={<TrophyBotSketch className="max-w-[11rem] text-text" />}
       >
-        <PassportStamps items={awards.slice(0, 4)} />
+        <AwardList items={awards.slice(0, 4)} />
       </Section>
 
       {/* Miracle Robotics: the company gets its own cut panel in brand navy. */}
