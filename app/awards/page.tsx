@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { openGraphDefaults } from "@/lib/site";
 import Image from "next/image";
 import { awards } from "@/lib/content";
-import { AwardList, PageHeader, Section } from "@/components/ui";
+import { AwardList, PageHeader, Section, SpecSheet } from "@/components/ui";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/awards" },
@@ -26,37 +26,40 @@ export default function AwardsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Recognition"
         title="Awards & achievements"
         intro={`Representing Bangladesh internationally, national olympiad placings, and ${programs} global programs.`}
       />
 
       <Section title="Highlights">
-        <dl className="mb-12 grid grid-cols-3 gap-4">
-          <div>
-            <dd className="font-serif text-4xl sm:text-5xl">{competitions}×</dd>
-            <dt className="mt-1 text-sm text-muted">FIRST Global, Team BD</dt>
-          </div>
-          <div>
-            <dd className="font-serif text-4xl sm:text-5xl">36th</dd>
-            <dt className="mt-1 text-sm text-muted">Best world ranking (of 186)</dt>
-          </div>
-          <div>
-            <dd className="font-serif text-4xl sm:text-5xl">4th</dd>
-            <dt className="mt-1 text-sm text-muted">National Math Olympiad</dt>
-          </div>
-        </dl>
+        <SpecSheet
+          className="mb-12"
+          rows={[
+            { key: "FIRST Global", value: `${competitions}× Team Bangladesh` },
+            { key: "Best world ranking", value: "36th of 186 countries, Singapore 2023" },
+            { key: "Math Olympiad", value: "4th place nationally, 2024" },
+          ]}
+        />
         <AwardList items={awards} />
       </Section>
 
       <Section title="Gallery">
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-x-4 gap-y-8 sm:grid-cols-2">
           {gallery.map((g) => (
             <figure key={g.src} className={g.wide ? "sm:col-span-2" : undefined}>
-              <div className={`relative overflow-hidden rounded-2xl bg-line ${g.wide ? "aspect-[4/3] sm:aspect-[16/10]" : "aspect-[4/3]"}`}>
-                <Image src={g.src} alt={g.caption} fill priority={g.wide} sizes={g.wide ? "(min-width: 640px) 976px, 100vw" : "(min-width: 640px) 480px, 100vw"} className="object-cover" style={g.position ? { objectPosition: g.position } : undefined} />
+              <div
+                className={`relative overflow-hidden rounded-[3px] bg-surface ${g.wide ? "aspect-[4/3] sm:aspect-[16/10]" : "aspect-[4/3]"}`}
+              >
+                <Image
+                  src={g.src}
+                  alt={g.caption}
+                  fill
+                  priority={g.wide}
+                  sizes={g.wide ? "(min-width: 1024px) 720px, 100vw" : "(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"}
+                  className="object-cover"
+                  style={g.position ? { objectPosition: g.position } : undefined}
+                />
               </div>
-              <figcaption className="mt-2 text-sm text-muted">{g.caption}</figcaption>
+              <figcaption className="type-label mt-2 text-sm text-muted">{g.caption}</figcaption>
             </figure>
           ))}
         </div>

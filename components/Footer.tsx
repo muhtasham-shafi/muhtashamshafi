@@ -3,23 +3,30 @@ import { profile, socials } from "@/lib/content";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-10 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <p>
-          © {new Date().getFullYear()} {profile.name} ·{" "}
-          <Link href="/miracle-robotics" className="hover:text-text">
-            Miracle Robotics
-          </Link>
-        </p>
-        <ul className="flex flex-wrap gap-x-5 gap-y-2">
+    <footer className="bg-navy text-on-navy">
+      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-[1fr_auto] md:items-end">
+        <div>
+          <p className="type-heading text-2xl">{profile.name}</p>
+          <p className="mt-2 text-on-navy/70">
+            Founder of{" "}
+            <Link href="/miracle-robotics" className="link text-on-navy hover:text-white!">
+              Miracle Robotics
+            </Link>
+            , building in {profile.location}.
+          </p>
+        </div>
+        <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[0.9375rem]">
           {socials.map((s) => (
             <li key={s.name}>
-              <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-text">
+              <a href={s.href} target="_blank" rel="noopener noreferrer" className="link hover:text-white!">
                 {s.name}
               </a>
             </li>
           ))}
         </ul>
+        <p className="type-label text-sm text-on-navy/60 md:col-span-2">
+          © {new Date().getFullYear()} {profile.name}
+        </p>
       </div>
     </footer>
   );

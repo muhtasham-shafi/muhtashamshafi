@@ -1,31 +1,40 @@
 @import "tailwindcss";
 
 /*
- * Cool, minimal palette: four shades of blue on a near-white page.
- *   Navy  #0B1D33  text, primary buttons
- *   Blue  #1F5FBF  accent (labels, links, hover, focus, timeline dots)
- *   Steel #5B6F88  secondary text
- *   Ice   #E3EBF5  hairlines and soft surfaces
- * All text pairs pass WCAG AA. Light is the default; dark is opt-in via
- * the toggle (data-theme on <html>).
+ * Palette taken from the Miracle Robotics logo, on a cool drafting-paper page.
+ *   Paper  #F4F6FA  page
+ *   Ink    #08142E  text
+ *   Blue   #0058E1  Miracle bright — links, primary button, focus
+ *   Navy   #052C77  Miracle navy — deep bands (Miracle Robotics, footer)
+ *   Steel  #56647C  secondary text
+ *   Signal #E1243B  the red disc of the Bangladesh flag — marks "now" only
+ * Light is the default; dark is opt-in via the toggle (data-theme on <html>).
  */
 :root {
-  --bg: #f7fafd;
-  --surface: #eef3f9;
-  --text: #0b1d33;
-  --muted: #5b6f88;
-  --line: #e3ebf5;
-  --accent: #1f5fbf;
+  --bg: #f4f6fa;
+  --surface: #e9edf4;
+  --text: #08142e;
+  --muted: #56647c;
+  --line: #d6dde9;
+  --accent: #0058e1;
+  --on-accent: #ffffff;
+  --navy: #052c77;
+  --on-navy: #f4f6fa;
+  --signal: #e1243b;
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --bg: #0b1d33;
-  --surface: #102640;
-  --text: #eaf1f9;
-  --muted: #9aaec6;
-  --line: #1e3550;
-  --accent: #6fa8ff;
+  --bg: #040c1f;
+  --surface: #0a1836;
+  --text: #e7edf8;
+  --muted: #93a3bf;
+  --line: #1b2c50;
+  --accent: #5c9bff;
+  --on-accent: #040c1f;
+  --navy: #0a1f55;
+  --on-navy: #e7edf8;
+  --signal: #ff4d5e;
   color-scheme: dark;
 }
 
@@ -36,9 +45,12 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-navy: var(--navy);
+  --color-on-navy: var(--on-navy);
+  --color-signal: var(--signal);
 
-  --font-serif: var(--font-instrument-serif);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-archivo);
 }
 
 @layer base {
@@ -48,52 +60,84 @@
   body {
     background-color: var(--bg);
     color: var(--text);
+    font-size: 1.0625rem;
+    line-height: 1.6;
   }
   ::selection {
-    background: var(--text);
-    color: var(--bg);
+    background: var(--accent);
+    color: #fff;
   }
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
-    border-radius: 4px;
   }
 }
 
-/* Theme toggle shows the icon for the theme you'd switch to. */
-.icon-sun { display: none; }
-:root[data-theme="dark"] .icon-sun { display: block; }
-:root[data-theme="dark"] .icon-moon { display: none; }
-
 /*
- * Blueprint grid behind the hero — a nod to engineering drawings.
- * Fades out towards the edges so it never competes with the text.
+ * One family, three widths — the extended display echoes the MIRACLE wordmark,
+ * the condensed width carries datasheet keys and small labels.
  */
-.blueprint {
-  background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--accent) 9%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--accent) 9%, transparent) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 30%, transparent 75%);
+@utility type-display {
+  font-stretch: 125%;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+@utility type-heading {
+  font-stretch: 118%;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+@utility type-label {
+  font-stretch: 75%;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 /*
- * Sections rise in gently as they scroll into view. Pure CSS (scroll-driven
- * animations); browsers without support simply show the content.
+ * Chamfered corners, cut like the corners of the Miracle Robotics "M".
+ * Used sparingly: hero photo, primary buttons, the Miracle Robotics band.
  */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 35%;
-    }
+@utility chamfer {
+  --cut: 14px;
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+}
+
+/* Underlined text links — the default way to move around the site. */
+@utility link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  transition: color 150ms, text-decoration-color 150ms;
+  &:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
   }
 }
-@keyframes reveal {
+
+/*
+ * The one orchestrated motion: the hero assembles on load.
+ * Each piece sets --d for its delay. Off for prefers-reduced-motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .assemble {
+    animation: assemble 700ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+}
+@keyframes assemble {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
@@ -101,17 +145,10 @@
   }
 }
 
-/* Slow drift on the hero badge. */
-@media (prefers-reduced-motion: no-preference) {
-  .float {
-    animation: float 6s ease-in-out infinite;
-  }
-}
-@keyframes float {
-  50% {
-    transform: translateY(-6px);
-  }
-}
+/* Theme toggle shows the icon for the theme you'd switch to. */
+.icon-sun { display: none; }
+:root[data-theme="dark"] .icon-sun { display: block; }
+:root[data-theme="dark"] .icon-moon { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html {

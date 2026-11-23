@@ -1,85 +1,103 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Award, Build, Project } from "@/lib/content";
 import type { Post } from "@/lib/posts";
 import { formatDate } from "@/lib/posts";
 import { cn } from "@/lib/utils";
 
 export function Container({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("mx-auto max-w-5xl px-4 sm:px-6", className)}>{children}</div>;
+  return <div className={cn("mx-auto max-w-6xl px-5 sm:px-8", className)}>{children}</div>;
 }
 
+/**
+ * A datasheet row: the section title sits in a 4-column gutter (sticky on
+ * large screens) and the content runs in the 8 columns beside it.
+ */
 export function Section({
   id,
-  eyebrow,
   title,
   intro,
   action,
   children,
 }: {
   id?: string;
-  eyebrow?: string;
   title: string;
   intro?: string;
   action?: { label: string; href: string };
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-20 border-t border-line py-16 sm:py-24">
-      <Container className="reveal">
-        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            {eyebrow && (
-              <p className="mb-3 text-sm font-medium text-accent">{eyebrow}</p>
+    <section id={id} className="scroll-mt-20 border-t border-line">
+      <Container className="grid gap-x-10 gap-y-8 py-16 sm:py-20 lg:grid-cols-12">
+        <header className="lg:col-span-4">
+          <div className="lg:sticky lg:top-24">
+            <h2 className="type-heading text-[1.75rem] sm:text-[2.125rem]">{title}</h2>
+            {intro && <p className="mt-3 max-w-sm text-muted">{intro}</p>}
+            {action && (
+              <p className="mt-5">
+                <TextLink href={action.href}>{action.label}</TextLink>
+              </p>
             )}
-            <h2 className="font-serif text-4xl leading-tight sm:text-5xl">{title}</h2>
-            {intro && <p className="mt-4 text-lg text-muted">{intro}</p>}
           </div>
-          {action && <ArrowLink href={action.href}>{action.label}</ArrowLink>}
-        </div>
-        {children}
+        </header>
+        <div className="min-w-0 lg:col-span-8">{children}</div>
       </Container>
     </section>
   );
 }
 
 export function PageHeader({
-  eyebrow,
   title,
   intro,
   badge,
 }: {
-  eyebrow?: string;
   title: string;
   intro?: string;
   badge?: React.ReactNode;
 }) {
   return (
-    <Container className="pb-12 pt-16 sm:pb-16 sm:pt-24">
-      {badge && <div className="mb-6">{badge}</div>}
-      {eyebrow && <p className="mb-3 text-sm font-medium text-accent">{eyebrow}</p>}
-      <h1 className="max-w-3xl font-serif text-5xl leading-[1.05] sm:text-6xl">{title}</h1>
-      {intro && <p className="mt-5 max-w-2xl text-lg text-muted sm:text-xl">{intro}</p>}
+    <Container className="pb-14 pt-14 sm:pb-20 sm:pt-20">
+      {badge && <div className="assemble mb-8">{badge}</div>}
+      <h1 className="assemble type-display max-w-[16ch] text-[clamp(2.1rem,8vw,5.75rem)] hyphens-auto">{title}</h1>
+      {intro && (
+        <p className="assemble mt-6 max-w-[58ch] text-lg text-muted sm:text-xl" style={{ "--d": "120ms" } as React.CSSProperties}>
+          {intro}
+        </p>
+      )}
     </Container>
   );
 }
 
-export function ArrowLink({ href, children }: { href: string; children: React.ReactNode }) {
+/** Underlined text link. External links open in a new tab and say so with an icon. */
+export function TextLink({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   const external = href.startsWith("http");
-  const Icon = external ? ArrowUpRight : ArrowRight;
   return (
     <Link
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-text hover:text-accent"
+      className={cn("link inline-flex items-center gap-1 font-medium", className)}
     >
       {children}
-      <Icon size={16} className="transition-transform group-hover:translate-x-0.5" />
+      {external && (
+        <>
+          <ArrowUpRight size={15} aria-hidden className="shrink-0" />
+          <span className="sr-only">(opens in a new tab)</span>
+        </>
+      )}
     </Link>
   );
 }
 
+/** Primary actions are cut like the logo; secondary actions are plain links. */
 export function Button({
   href,
   children,
@@ -89,124 +107,135 @@ export function Button({
   children: React.ReactNode;
   variant?: "primary" | "secondary";
 }) {
+  if (variant === "secondary") {
+    return (
+      <Link href={href} className="link inline-flex items-center px-1 py-3 font-medium">
+        {children}
+      </Link>
+    );
+  }
   return (
     <Link
       href={href}
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition",
-        variant === "primary"
-          ? "bg-text text-bg hover:opacity-85"
-          : "border border-line bg-surface hover:border-text"
-      )}
+      className="chamfer inline-flex items-center bg-accent px-6 py-3.5 font-semibold text-on-accent transition-colors [--cut:10px] hover:bg-text hover:text-bg"
     >
       {children}
     </Link>
   );
 }
 
-export function Tag({ children }: { children: React.ReactNode }) {
+/** The red disc of the Bangladesh flag — marks what is happening now. */
+export function SignalDot({ label = "Latest" }: { label?: string }) {
   return (
-    <span className="inline-block rounded-full border border-line px-2.5 py-0.5 text-xs text-muted">
-      {children}
-    </span>
+    <span className="inline-block h-2.5 w-2.5 shrink-0 translate-y-[-1px] rounded-full bg-signal" role="img" aria-label={label} />
   );
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+export type SpecRow = { key: string; value: React.ReactNode; now?: boolean };
+
+/** Key/value rows, set like a component datasheet. */
+export function SpecSheet({ rows, className }: { rows: SpecRow[]; className?: string }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-20px_color-mix(in_oklab,var(--accent)_45%,transparent)]">
-      <div className="relative aspect-[16/10] overflow-hidden bg-line">
+    <dl className={cn("border-t border-line text-[0.9375rem]", className)}>
+      {rows.map((r) => (
+        <div
+          key={r.key}
+          className="grid grid-cols-[minmax(0,8.5rem)_minmax(0,1fr)] gap-4 border-b border-line py-2.5 sm:grid-cols-[minmax(0,10rem)_minmax(0,1fr)]"
+        >
+          <dt className="type-label text-muted">{r.key}</dt>
+          <dd className="flex items-baseline gap-2 tabular-nums">
+            {r.now && <SignalDot />}
+            <span>{r.value}</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** A prototype, laid out as a catalogue entry: photo beside its datasheet. */
+export function ProjectEntry({ project }: { project: Project }) {
+  return (
+    <article className="grid gap-5 border-t border-line py-9 first:border-t-0 first:pt-0 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-8">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[3px] bg-surface">
         <Image
           src={project.image}
           alt={project.title}
           fill
-          sizes="(min-width: 768px) 480px, 100vw"
-          className="object-cover transition duration-500 group-hover:scale-[1.04]"
+          sizes="(min-width: 1024px) 300px, (min-width: 640px) 40vw, 100vw"
+          className="object-cover"
         />
-        <span className="absolute left-4 top-4 rounded-full bg-bg/90 px-3 py-1 text-xs font-medium text-text backdrop-blur">
-          {project.status}
-        </span>
       </div>
-      <div className="flex flex-1 flex-col p-6">
-        <p className="mb-3 text-xs font-medium uppercase tracking-wider text-accent">{project.category}</p>
-        <h3 className="text-xl font-semibold">{project.title}</h3>
-        <p className="mt-2 flex-1 text-muted">{project.summary}</p>
-        <dl className="mt-5 flex gap-6 border-t border-line pt-4">
-          {project.metrics.map((m) => (
-            <div key={m.label}>
-              <dt className="sr-only">{m.label}</dt>
-              <dd className="font-serif text-3xl leading-none">{m.value}</dd>
-              <dd className="mt-1 text-xs text-muted">{m.label}</dd>
-            </div>
-          ))}
-        </dl>
+      <div>
+        <p className="type-label flex flex-wrap gap-x-3 text-muted">
+          <span>{project.category}</span>
+          <span className="text-accent">{project.status}</span>
+        </p>
+        <h3 className="type-heading mt-1.5 text-2xl">{project.title}</h3>
+        <p className="mt-2 max-w-[60ch] text-muted">{project.summary}</p>
+        <SpecSheet className="mt-5" rows={project.metrics.map((m) => ({ key: m.label, value: m.value }))} />
       </div>
     </article>
   );
 }
 
-export function BuildCard({ build }: { build: Build }) {
+export function BuildEntry({ build }: { build: Build }) {
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border border-line bg-bg">
-      <div className="relative aspect-[4/3] bg-surface">
-        {build.image ? (
+    <article className="flex flex-col border-t border-line pt-5">
+      {build.image && (
+        <div className="relative mb-5 aspect-[4/3] overflow-hidden rounded-[3px] bg-surface">
           <Image
             src={build.image}
             alt={build.title}
             fill
-            sizes="(min-width: 768px) 320px, 100vw"
+            sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
             className="object-cover"
             style={build.position ? { objectPosition: build.position } : undefined}
           />
-        ) : (
-          <div className="flex h-full items-end p-6">
-            <span className="font-serif text-4xl leading-tight text-accent">{build.title}</span>
-          </div>
-        )}
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs text-muted">
-          {build.year} · {build.category}
-        </p>
-        <h3 className="mt-2 font-semibold">{build.title}</h3>
-        <p className="mt-2 flex-1 text-sm text-muted">{build.summary}</p>
-        {build.result && <p className="mt-4 text-sm font-medium text-accent">{build.result}</p>}
-      </div>
+        </div>
+      )}
+      <p className="type-label flex gap-3 text-muted">
+        <span className="tabular-nums">{build.year}</span>
+        <span>{build.category}</span>
+      </p>
+      <h3 className="type-heading mt-1.5 text-xl">{build.title}</h3>
+      <p className="mt-2 text-[0.9375rem] text-muted">{build.summary}</p>
+      {build.result && <p className="mt-3 text-[0.9375rem] font-semibold text-accent">{build.result}</p>}
     </article>
   );
 }
 
 export function AwardList({ items }: { items: Award[] }) {
   return (
-    <ul className="divide-y divide-line border-y border-line">
+    <ol className="border-b border-line">
       {items.map((a) => (
         <li
           key={a.year + a.title}
-          className="grid grid-cols-[3.5rem_1fr] gap-4 py-5 sm:grid-cols-[5rem_1fr_auto] sm:items-center"
+          className="grid grid-cols-[4rem_minmax(0,1fr)] gap-x-4 gap-y-1 border-t border-line py-4 sm:grid-cols-[4.5rem_minmax(0,1fr)_7rem] sm:items-baseline"
         >
-          <span className="font-serif text-2xl leading-none text-muted">{a.year}</span>
+          <span className="type-heading text-lg tabular-nums">{a.year}</span>
           <div>
-            <p className="font-medium">{a.title}</p>
-            <p className="mt-1 text-sm text-muted">{a.detail}</p>
+            <p className="font-semibold">{a.title}</p>
+            <p className="mt-0.5 text-[0.9375rem] text-muted">{a.detail}</p>
           </div>
-          <span className="col-start-2 sm:col-start-auto">
-            <Tag>{a.kind}</Tag>
-          </span>
+          <span className="type-label col-start-2 text-muted sm:col-start-auto sm:text-right">{a.kind}</span>
         </li>
       ))}
-    </ul>
+    </ol>
   );
 }
 
 export function PostList({ items }: { items: Post[] }) {
   return (
-    <ul className="divide-y divide-line border-y border-line">
+    <ul className="border-b border-line">
       {items.map((p) => (
-        <li key={p.slug}>
+        <li key={p.slug} className="border-t border-line">
           <Link href={`/writing/${p.slug}`} className="group block py-6">
-            <p className="text-sm text-muted">{formatDate(p.date)}</p>
-            <h3 className="mt-1 text-xl font-semibold group-hover:text-accent">{p.title}</h3>
-            <p className="mt-2 max-w-2xl text-muted">{p.summary}</p>
+            <p className="type-label text-muted">{formatDate(p.date)}</p>
+            <h3 className="type-heading mt-1.5 text-xl transition-colors group-hover:text-accent sm:text-2xl">
+              {p.title}
+            </h3>
+            <p className="mt-2 max-w-[62ch] text-muted">{p.summary}</p>
           </Link>
         </li>
       ))}

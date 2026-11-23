@@ -18,7 +18,6 @@ export default function WritingPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Writing"
         title="Notes & updates"
         intro="What I'm building, what I'm learning, and what went wrong along the way."
       />
@@ -29,15 +28,16 @@ export default function WritingPage() {
 
       {sortedPress.length > 0 && (
         <Section title="Press & mentions">
-          <ul className="divide-y divide-line border-y border-line">
+          <ul className="border-b border-line">
             {sortedPress.map((p) => (
-              <li key={p.href}>
+              <li key={p.href} className="border-t border-line">
                 <a href={p.href} target="_blank" rel="noopener noreferrer" className="group flex items-start justify-between gap-4 py-5">
                   <div>
-                    <p className="text-sm text-muted">
-                      {p.outlet} · {formatDate(p.date)}
+                    <p className="type-label flex gap-3 text-muted">
+                      <span>{p.outlet}</span>
+                      <span>{formatDate(p.date)}</span>
                     </p>
-                    <p className="mt-1 font-medium group-hover:text-accent">{p.title}</p>
+                    <p className="type-heading mt-1.5 text-xl transition-colors group-hover:text-accent">{p.title}</p>
                   </div>
                   <ArrowUpRight size={18} className="mt-1 shrink-0 text-muted" />
                 </a>

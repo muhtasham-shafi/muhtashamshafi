@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Bot, Cpu, Globe, Mail, MapPin, Trophy } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import {
   awards,
   clientWork,
@@ -16,281 +16,231 @@ import {
   timeline,
 } from "@/lib/content";
 import { sortedPosts } from "@/lib/posts";
-import { AwardList, Button, Container, PostList, ProjectCard, Section } from "@/components/ui";
+import {
+  AwardList,
+  Button,
+  Container,
+  PostList,
+  ProjectEntry,
+  Section,
+  SpecSheet,
+  type SpecRow,
+} from "@/components/ui";
 import MiracleMark from "@/components/MiracleMark";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+const heroSpecs: SpecRow[] = [
+  { key: "Based in", value: profile.location },
+  ...stats.map((s) => ({ key: s.label, value: s.value })),
+  {
+    key: "Company",
+    value: (
+      <>
+        <Link href="/miracle-robotics" className="link">
+          {miracleRobotics.name}
+        </Link>
+        , founded {miracleRobotics.founded}
+      </>
+    ),
+  },
+  { key: "Latest", value: `${heroBadge.label}, ${heroBadge.detail}`, now: true },
+  { key: "Took part in", value: representedAt.join(", ") },
+];
+
 export default function Home() {
   return (
     <>
-      {/* Hero */}
-      <div className="relative overflow-hidden">
-        <div aria-hidden className="blueprint pointer-events-none absolute inset-0" />
-        <Container className="relative grid items-center gap-12 py-16 sm:py-24 md:grid-cols-[1fr_auto]">
-          <div>
-            <Link
-              href="/miracle-robotics"
-              className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-line bg-bg/80 py-1.5 pl-2 pr-4 text-sm backdrop-blur transition-colors hover:border-accent/50"
-            >
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-white">
-                <MiracleMark className="h-3.5 w-auto" />
-              </span>
-              <span>
-                Founder, <span className="font-medium">Miracle Robotics</span>
-              </span>
-              <ArrowUpRight size={14} className="text-muted" />
-            </Link>
-            <h1 className="font-serif text-5xl leading-[1.02] sm:text-7xl">
-              <Tagline text={profile.tagline} highlight="one prototype" />
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-muted sm:text-xl">{profile.intro}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button href="/work">See my work</Button>
-              <Button href="#contact" variant="secondary">
-                Work with me
-              </Button>
-            </div>
-            <p className="mt-8 flex items-center gap-2 text-sm text-muted">
-              <MapPin size={15} className="text-accent" />
-              {profile.location} · {profile.role}
-            </p>
-          </div>
-          <div className="relative mx-auto w-60 sm:w-72 md:mx-0">
-            <div aria-hidden className="absolute -inset-3 -z-10 rotate-3 rounded-[1.75rem] bg-accent/10" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-line shadow-xl shadow-text/10">
-              <Image src={profile.photo} alt={profile.name} fill priority sizes="288px" className="object-cover" />
-            </div>
-            <div className="float absolute -bottom-5 -left-6 flex items-center gap-3 rounded-2xl border border-line bg-bg/95 px-4 py-3 shadow-lg shadow-text/10 backdrop-blur">
-              <Trophy size={18} className="shrink-0 text-accent" />
-              <div className="leading-tight">
-                <p className="text-sm font-semibold">{heroBadge.label}</p>
-                <p className="text-xs text-muted">{heroBadge.detail}</p>
+      {/* Hero: the one loud moment on the page. */}
+      <section className="border-b border-line">
+        <Container className="pb-16 pt-12 sm:pb-20 sm:pt-16">
+          <h1 className="assemble type-display max-w-[15ch] text-[clamp(2.75rem,9.2vw,7rem)]">{profile.tagline}</h1>
+
+          <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-12">
+            <div className="assemble lg:col-span-7 lg:col-start-6" style={{ "--d": "140ms" } as React.CSSProperties}>
+              <p className="max-w-[52ch] text-xl leading-relaxed">{profile.intro}</p>
+              <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Button href="/work">See my work</Button>
+                <Button href="#contact" variant="secondary">
+                  Email me
+                </Button>
               </div>
+              <SpecSheet className="mt-10" rows={heroSpecs} />
             </div>
+
+            <figure
+              className="assemble lg:col-span-5 lg:col-start-1 lg:row-start-1"
+              style={{ "--d": "260ms" } as React.CSSProperties}
+            >
+              <div className="chamfer relative aspect-[4/5] max-w-xs overflow-hidden bg-surface [--cut:28px] sm:max-w-sm lg:max-w-none">
+                <Image
+                  src={profile.photo}
+                  alt={`${profile.name} speaking`}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 420px, 384px"
+                  className="object-cover"
+                />
+              </div>
+            </figure>
           </div>
         </Container>
-      </div>
+      </section>
 
-      {/* Stats + where I've been */}
-      <Container>
-        <dl className="grid grid-cols-3 gap-4 border-t border-line pt-10">
-          {stats.map((s) => (
-            <div key={s.label}>
-              <dd className="font-serif text-5xl text-accent sm:text-6xl">{s.value}</dd>
-              <dt className="mt-1 text-sm text-muted">{s.label}</dt>
-            </div>
-          ))}
-        </dl>
-        <div className="mt-10 pb-12">
-          <p className="text-xs font-medium uppercase tracking-wider text-muted">Represented Bangladesh &amp; took part in</p>
-          <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
-            {representedAt.map((r) => (
-              <li key={r} className="font-serif text-xl text-text/70 sm:text-2xl">
-                {r}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Container>
-
-      {/* About */}
-      <Section id="about" eyebrow="About" title="Building systems, not just code.">
-        <div className="grid gap-10 md:grid-cols-[1fr_20rem]">
-          <div className="space-y-5 text-lg text-muted">
+      <Section id="about" title="About">
+        <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_14rem]">
+          <div className="max-w-[62ch] space-y-5 text-lg">
             {profile.bio.map((p) => (
               <p key={p}>{p}</p>
             ))}
           </div>
-          <div className="relative aspect-[5/4] overflow-hidden rounded-2xl bg-line">
-            <Image src={profile.photoAlt} alt={`${profile.name} at work`} fill sizes="320px" className="object-cover" />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[3px] bg-surface md:self-start">
+            <Image
+              src={profile.photoAlt}
+              alt={`${profile.name} at work`}
+              fill
+              sizes="(min-width: 768px) 224px, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </Section>
 
-      {/* Selected work */}
       <Section
-        eyebrow="Portfolio"
-        title="Selected work"
-        intro="Prototypes I've designed and built, aimed at real problems in Bangladesh."
-        action={{ label: "All projects", href: "/work" }}
+        title="Prototypes"
+        intro="Working machines, each aimed at a real problem in Bangladesh."
+        action={{ label: `All ${projects.length} prototypes`, href: "/work" }}
       >
-        <div className="grid gap-6 md:grid-cols-2">
-          {projects.slice(0, 4).map((p) => (
-            <ProjectCard key={p.slug} project={p} />
-          ))}
-        </div>
+        {projects.slice(0, 4).map((p) => (
+          <ProjectEntry key={p.slug} project={p} />
+        ))}
       </Section>
 
-      {/* Client work + services */}
       <Section
         id="services"
-        eyebrow="Services"
-        title="What I can build for you"
-        action={{ label: "Get a quote", href: "#contact" }}
+        title="What I build for clients"
+        action={{ label: "Ask for a quote", href: "#contact" }}
       >
-        <div className="grid gap-6 sm:grid-cols-3">
-          {services.map((s, i) => {
-            const Icon = serviceIcons[i] ?? Cpu;
-            return (
-            <div
+        <ul className="border-b border-line">
+          {services.map((s) => (
+            <li
               key={s.title}
-              className="rounded-2xl border border-line bg-surface p-6 transition duration-300 hover:-translate-y-1 hover:border-accent/40"
+              className="grid gap-1.5 border-t border-line py-5 sm:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] sm:gap-8"
             >
-              <span className="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-accent/10 text-accent">
-                <Icon size={20} />
-              </span>
-              <h3 className="font-semibold">{s.title}</h3>
-              <p className="mt-2 text-muted">{s.summary}</p>
-            </div>
-            );
-          })}
-        </div>
+              <h3 className="type-heading text-lg">{s.title}</h3>
+              <p className="max-w-[56ch] text-muted">{s.summary}</p>
+            </li>
+          ))}
+        </ul>
         {clientWork.map((c) => (
-          <a
-            key={c.title}
-            href={c.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-6 grid overflow-hidden rounded-2xl border border-line bg-surface md:grid-cols-2"
-          >
-            <div className="flex flex-col justify-center p-6 sm:p-10">
-              <p className="text-sm text-muted">Client project · Live</p>
-              <h3 className="mt-2 flex items-center gap-2 font-serif text-3xl sm:text-4xl">
-                {c.title}
-                <ArrowUpRight size={22} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </h3>
-              <p className="mt-3 text-muted">{c.summary}</p>
+          <a key={c.title} href={c.href} target="_blank" rel="noopener noreferrer" className="group mt-12 block">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-[3px] border border-line bg-surface">
+              <Image
+                src={c.image}
+                alt={`${c.title} website`}
+                fill
+                sizes="(min-width: 1024px) 720px, 100vw"
+                className="object-cover object-top"
+              />
             </div>
-            <div className="relative aspect-[16/10] bg-line md:aspect-auto">
-              <Image src={c.image} alt={`${c.title} website`} fill sizes="(min-width: 768px) 480px, 100vw" className="object-cover object-top" />
+            <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h3 className="type-heading text-2xl transition-colors group-hover:text-accent">{c.title}</h3>
+              <span className="type-label shrink-0 text-muted">Client site, live</span>
             </div>
+            <p className="mt-1 max-w-[56ch] text-muted">
+              {c.summary}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </p>
           </a>
         ))}
       </Section>
 
-      {/* Awards */}
-      <Section
-        eyebrow="Recognition"
-        title="Awards & achievements"
-        action={{ label: "See all", href: "/awards" }}
-      >
+      <Section title="Awards" action={{ label: "All awards", href: "/awards" }}>
         <AwardList items={awards.slice(0, 4)} />
       </Section>
 
-      {/* Miracle Robotics */}
-      <section className="border-t border-line py-16 sm:py-24">
-        <Container className="reveal">
-          <div className="relative grid overflow-hidden rounded-3xl bg-[#071a3d] text-white md:grid-cols-[1.1fr_1fr]">
-            <div aria-hidden className="blueprint pointer-events-none absolute inset-0 opacity-60 [--accent:#6fa8ff]" />
-            <div className="relative p-8 sm:p-12">
-              <div className="flex items-center gap-3">
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-white">
-                  <MiracleMark className="h-6 w-auto" />
-                </span>
-                <div className="leading-tight">
-                  <p className="text-lg font-semibold tracking-wide">MIRACLE</p>
-                  <p className="text-xs tracking-[0.35em] text-[#8fb8ff]">ROBOTICS</p>
-                </div>
-              </div>
-              <p className="mt-8 text-sm font-medium text-[#8fb8ff]">Founded {miracleRobotics.founded}</p>
-              <p className="mt-2 font-serif text-3xl leading-tight sm:text-4xl">{miracleRobotics.oneLiner}</p>
-              <p className="mt-4 text-white/70">{miracleRobotics.mission}</p>
+      {/* Miracle Robotics: the company gets its own cut panel in brand navy. */}
+      <section className="border-t border-line py-16 sm:py-20">
+        <Container>
+          <div className="chamfer grid overflow-hidden bg-navy text-on-navy [--cut:36px] lg:grid-cols-12">
+            <div className="p-8 sm:p-12 lg:col-span-7">
+              <span className="chamfer grid h-16 w-16 place-items-center bg-white [--cut:10px]">
+                <MiracleMark className="h-8 w-auto" />
+              </span>
+              <h2 className="type-display mt-8 text-[clamp(2.25rem,5.5vw,3.75rem)]">{miracleRobotics.name}</h2>
+              <p className="mt-4 max-w-[40ch] text-xl">{miracleRobotics.oneLiner}</p>
+              <p className="mt-4 max-w-[56ch] text-on-navy/75">{miracleRobotics.mission}</p>
+              <p className="type-label mt-6 text-on-navy/60">
+                Founded {miracleRobotics.founded} in {profile.location}
+              </p>
               <Link
                 href="/miracle-robotics"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-[#071a3d] transition-opacity hover:opacity-90"
+                className="chamfer mt-8 inline-flex bg-white px-6 py-3.5 font-semibold text-[#052c77] transition-opacity [--cut:10px] hover:opacity-90"
               >
-                About the company <ArrowRight size={16} />
+                About Miracle Robotics
               </Link>
             </div>
-            <div className="relative min-h-64">
+            <div className="relative min-h-72 lg:col-span-5">
               <Image
                 src={miracleRobotics.image}
-                alt="Miracle Robotics"
+                alt="The Miracle Robotics workshop"
                 fill
-                sizes="(min-width: 768px) 480px, 100vw"
+                sizes="(min-width: 1024px) 460px, 100vw"
                 className="object-cover"
               />
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-[#071a3d] via-[#071a3d]/10 to-transparent max-md:bg-gradient-to-b" />
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Journey */}
-      <Section id="journey" eyebrow="Journey" title="How I got here">
-        <ol className="relative space-y-8 border-l border-line pl-6 sm:pl-8">
-          {timeline.map((t) => (
-            <li key={t.year} className="relative">
-              <span className="absolute -left-[31px] top-2 h-2.5 w-2.5 rounded-full bg-accent sm:-left-[39px]" />
-              <p className="font-serif text-2xl leading-none text-muted">{t.year}</p>
-              <h3 className="mt-2 text-lg font-semibold">{t.title}</h3>
-              <p className="mt-1 max-w-2xl text-muted">{t.text}</p>
+      <Section id="journey" title="How I got here">
+        {/* An aluminium bar with a mounting hole at each year; the current year is the red disc. */}
+        <ol className="relative before:absolute before:bottom-0 before:left-0 before:top-1 before:w-5 before:rounded-[3px] before:bg-line">
+          {timeline.map((t, i) => (
+            <li key={t.year} className="relative pb-10 pl-12 last:pb-0">
+              <span
+                aria-hidden
+                className={`absolute left-[4px] top-[0.5rem] h-3 w-3 rounded-full ${i === 0 ? "bg-signal" : "bg-bg"}`}
+              />
+              <p className="type-heading text-2xl tabular-nums">{t.year}</p>
+              <h3 className="mt-1 text-lg font-semibold">{t.title}</h3>
+              <p className="mt-1 max-w-[60ch] text-muted">{t.text}</p>
             </li>
           ))}
         </ol>
       </Section>
 
-      {/* Writing */}
-      <Section eyebrow="Writing" title="Notes & updates" action={{ label: "All posts", href: "/writing" }}>
+      <Section title="Writing" action={{ label: "All posts", href: "/writing" }}>
         <PostList items={sortedPosts().slice(0, 3)} />
       </Section>
 
-      {/* Contact */}
-      <section id="contact" className="scroll-mt-20 border-t border-line py-16 sm:py-24">
-        <Container className="reveal">
-        <div className="relative overflow-hidden rounded-3xl border border-line bg-surface p-8 sm:p-14">
-        <div aria-hidden className="blueprint pointer-events-none absolute inset-0" />
-        <div className="relative">
-        <p className="mb-3 text-sm font-medium text-accent">Contact</p>
-        <h2 className="max-w-2xl font-serif text-5xl leading-[1.05] sm:text-6xl">
-          Let&apos;s build <em className="text-accent">something.</em>
-        </h2>
-        <p className="mt-5 max-w-xl text-lg text-muted">
-          Hiring, partnering, investing, or just want to talk robots? Email is the fastest way to reach me.
-        </p>
-        <a
-          href={`mailto:${profile.email}`}
-          className="mt-8 inline-flex max-w-full items-center gap-3 break-all rounded-full bg-text px-6 py-4 font-medium text-bg transition hover:-translate-y-0.5 hover:opacity-90"
-        >
-          <Mail size={18} className="shrink-0" />
-          {profile.email}
-        </a>
-        <ul className="mt-8 flex flex-wrap gap-3">
-          {socials.map((s) => (
-            <li key={s.name}>
-              <Link
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block rounded-full border border-line bg-bg px-4 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
-              >
-                {s.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        </div>
-        </div>
+      <section id="contact" className="scroll-mt-20 border-t border-line">
+        <Container className="py-20 sm:py-28">
+          <h2 className="type-heading text-[clamp(2rem,5vw,3rem)]">Let&apos;s build something.</h2>
+          <p className="mt-4 max-w-[52ch] text-lg text-muted">
+            Hiring, partnering, investing, or just want to talk robots? Email is the fastest way to reach me.
+          </p>
+          <a
+            href={`mailto:${profile.email}`}
+            className="link type-display mt-10 inline-block max-w-full break-words text-[clamp(1.25rem,5.4vw,3.5rem)] text-accent"
+          >
+            {profile.email}
+          </a>
+          <ul className="mt-10 flex flex-wrap gap-x-7 gap-y-3">
+            {socials.map((s) => (
+              <li key={s.name}>
+                <a href={s.href} target="_blank" rel="noopener noreferrer" className="link inline-flex items-center gap-1 font-medium">
+                  {s.name}
+                  <ArrowUpRight size={15} aria-hidden />
+                  <span className="sr-only">(opens in a new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </Container>
       </section>
-    </>
-  );
-}
-
-const serviceIcons = [Globe, Bot, Cpu];
-
-/** Renders the tagline with one phrase set in accent italics. */
-function Tagline({ text, highlight }: { text: string; highlight: string }) {
-  const i = text.indexOf(highlight);
-  if (i === -1) return <>{text}</>;
-  return (
-    <>
-      {text.slice(0, i)}
-      <em className="text-accent">{highlight}</em>
-      {text.slice(i + highlight.length)}
     </>
   );
 }
