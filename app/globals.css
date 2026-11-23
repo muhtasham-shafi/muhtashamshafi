@@ -65,6 +65,54 @@
 :root[data-theme="dark"] .icon-sun { display: block; }
 :root[data-theme="dark"] .icon-moon { display: none; }
 
+/*
+ * Blueprint grid behind the hero — a nod to engineering drawings.
+ * Fades out towards the edges so it never competes with the text.
+ */
+.blueprint {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--accent) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--accent) 9%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/*
+ * Sections rise in gently as they scroll into view. Pure CSS (scroll-driven
+ * animations); browsers without support simply show the content.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Slow drift on the hero badge. */
+@media (prefers-reduced-motion: no-preference) {
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+@keyframes float {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

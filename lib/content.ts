@@ -25,6 +25,18 @@ export const stats = [
   { value: "6", label: "Working prototypes" },
 ];
 
+/** Shown as a "where I've been" strip under the hero stats. */
+export const representedAt = [
+  "FIRST Global Challenge",
+  "MIT robotics workshop",
+  "Oxford Union",
+  "Global Youth Summit",
+  "National Mental Math Olympiad",
+];
+
+/** Small badge on the hero photo. */
+export const heroBadge = { label: "Team Bangladesh", detail: "FIRST Global Korea 2026" };
+
 export const socials = [
   { name: "LinkedIn", href: "https://www.linkedin.com/in/md-muhtasham-musharof-shafi-055a20317/" },
   { name: "GitHub", href: "https://github.com/muhtasham-shafi" },

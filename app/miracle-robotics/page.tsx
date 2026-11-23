@@ -3,6 +3,7 @@ import { openGraphDefaults } from "@/lib/site";
 import Image from "next/image";
 import { miracleRobotics, profile, projects } from "@/lib/content";
 import { Button, Container, PageHeader, ProjectCard, Section } from "@/components/ui";
+import MiracleMark from "@/components/MiracleMark";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/miracle-robotics" },
@@ -22,6 +23,11 @@ export default function MiracleRoboticsPage() {
         eyebrow={`Founded ${miracleRobotics.founded} · ${profile.location}`}
         title={miracleRobotics.name}
         intro={miracleRobotics.oneLiner}
+        badge={
+          <span className="inline-grid h-16 w-16 place-items-center rounded-2xl border border-line bg-white shadow-sm">
+            <MiracleMark className="h-8 w-auto" />
+          </span>
+        }
       />
 
       <Container className="pb-16">

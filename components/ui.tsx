@@ -27,7 +27,7 @@ export function Section({
 }) {
   return (
     <section id={id} className="scroll-mt-20 border-t border-line py-16 sm:py-24">
-      <Container>
+      <Container className="reveal">
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             {eyebrow && (
@@ -44,9 +44,20 @@ export function Section({
   );
 }
 
-export function PageHeader({ eyebrow, title, intro }: { eyebrow?: string; title: string; intro?: string }) {
+export function PageHeader({
+  eyebrow,
+  title,
+  intro,
+  badge,
+}: {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  badge?: React.ReactNode;
+}) {
   return (
     <Container className="pb-12 pt-16 sm:pb-16 sm:pt-24">
+      {badge && <div className="mb-6">{badge}</div>}
       {eyebrow && <p className="mb-3 text-sm font-medium text-accent">{eyebrow}</p>}
       <h1 className="max-w-3xl font-serif text-5xl leading-[1.05] sm:text-6xl">{title}</h1>
       {intro && <p className="mt-5 max-w-2xl text-lg text-muted sm:text-xl">{intro}</p>}
@@ -103,29 +114,28 @@ export function Tag({ children }: { children: React.ReactNode }) {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border border-line bg-surface">
-      <div className="relative aspect-[16/10] bg-line">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-20px_color-mix(in_oklab,var(--accent)_45%,transparent)]">
+      <div className="relative aspect-[16/10] overflow-hidden bg-line">
         <Image
           src={project.image}
           alt={project.title}
           fill
           sizes="(min-width: 768px) 480px, 100vw"
-          className="object-cover"
+          className="object-cover transition duration-500 group-hover:scale-[1.04]"
         />
+        <span className="absolute left-4 top-4 rounded-full bg-bg/90 px-3 py-1 text-xs font-medium text-text backdrop-blur">
+          {project.status}
+        </span>
       </div>
       <div className="flex flex-1 flex-col p-6">
-        <div className="mb-3 flex items-center gap-2 text-xs text-muted">
-          <span>{project.category}</span>
-          <span aria-hidden>·</span>
-          <span>{project.status}</span>
-        </div>
+        <p className="mb-3 text-xs font-medium uppercase tracking-wider text-accent">{project.category}</p>
         <h3 className="text-xl font-semibold">{project.title}</h3>
         <p className="mt-2 flex-1 text-muted">{project.summary}</p>
         <dl className="mt-5 flex gap-6 border-t border-line pt-4">
           {project.metrics.map((m) => (
             <div key={m.label}>
               <dt className="sr-only">{m.label}</dt>
-              <dd className="font-serif text-2xl leading-none">{m.value}</dd>
+              <dd className="font-serif text-3xl leading-none">{m.value}</dd>
               <dd className="mt-1 text-xs text-muted">{m.label}</dd>
             </div>
           ))}

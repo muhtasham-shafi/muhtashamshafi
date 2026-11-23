@@ -14,6 +14,7 @@ export const viewport: Viewport = {
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   weight: "400",
+  style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
@@ -36,10 +37,6 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-  },
-
-  icons: {
-    icon: "/favicon.ico",
   },
 };
 
