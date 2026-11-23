@@ -496,6 +496,162 @@
   }
 }
 
+/*
+ * Pen plotter hero (large screens). Each headline line starts as an outline
+ * and fills with ink as the plotter's pen passes (--ink, set by
+ * PlotterHero). If the script never runs, the fill finishes on its own.
+ */
+@property --ink {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 100%;
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .ink-in {
+    animation: none;
+    -webkit-text-stroke: 0;
+  }
+  .pen-line {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px #f4f6fa;
+    background-image: linear-gradient(90deg, #f4f6fa var(--ink), transparent var(--ink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* Room for descenders inside the inked box, without moving the lines. */
+    padding-block: 0.06em 0.2em;
+    margin-block: -0.06em -0.2em;
+    animation: pen-fallback 700ms ease-out 3.5s both;
+  }
+  .plotting .pen-line {
+    animation: none;
+  }
+}
+@keyframes pen-fallback {
+  from {
+    --ink: 0%;
+  }
+  to {
+    --ink: 100%;
+  }
+}
+.plotter {
+  & .plot-rail rect,
+  & .plot-rail circle,
+  & .plot-carriage rect,
+  & .plot-pen rect,
+  & .plot-pen path {
+    fill: #052c77;
+    stroke: #f4f6fa;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+  & .plot-carriage circle {
+    fill: #f4f6fa;
+  }
+  & .plot-belt {
+    stroke: rgb(255 255 255 / 0.45);
+    stroke-dasharray: 3 3;
+  }
+  & .plot-rod {
+    stroke: #f4f6fa;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  & .plot-nib {
+    fill: #ff5a6a;
+  }
+  & .plot-trail {
+    fill: none;
+    stroke: #f4f6fa;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+  }
+  & .plot-readout {
+    fill: rgb(255 255 255 / 0.7);
+    font-size: 12px;
+    font-stretch: 75%;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/*
+ * Drawing sheets: the photo is a blueprint print until its sheet reaches
+ * the middle of the screen (--dev from 0 to 1, set by DrawingSet).
+ */
+.drawing-sheet {
+  box-shadow: 0 1px 0 rgb(8 20 46 / 0.06);
+}
+.sheet-photo {
+  overflow: hidden;
+  background: #052c77;
+  & img {
+    filter: grayscale(calc(1 - var(--dev, 1))) contrast(calc(1 + (1 - var(--dev, 1)) * 0.15));
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #052c77;
+    mix-blend-mode: screen;
+    opacity: calc(1 - var(--dev, 1));
+    pointer-events: none;
+  }
+}
+
+/* Passport stamps. */
+.stamp {
+  transform: rotate(var(--r, 0deg));
+  opacity: 0.92;
+  overflow: visible;
+  & .stamp-arc {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  & .stamp-small {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  & .stamp-place {
+    font-family: var(--font-instrument-serif), serif;
+    font-size: 34px;
+  }
+  & .stamp-year {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stamp {
+      animation: stamp-down linear both;
+      animation-timeline: view();
+      animation-range: entry 40% contain 25%;
+    }
+  }
+}
+@keyframes stamp-down {
+  0% {
+    opacity: 0;
+    transform: scale(1.6) rotate(calc(var(--r, 0deg) + 10deg));
+  }
+  70% {
+    opacity: 0.95;
+    transform: scale(0.94) rotate(var(--r, 0deg));
+  }
+  100% {
+    opacity: 0.92;
+    transform: scale(1) rotate(var(--r, 0deg));
+  }
+}
+
 /* Theme toggle shows the icon for the theme you'd switch to. */
 .icon-sun { display: none; }
 :root[data-theme="dark"] .icon-sun { display: block; }

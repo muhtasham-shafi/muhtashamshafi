@@ -17,14 +17,15 @@ import {
 } from "@/lib/content";
 import { sortedPosts } from "@/lib/posts";
 import {
-  AwardList,
   Container,
   PostList,
-  ProjectPlate,
   Section,
 } from "@/components/ui";
 import MiracleMark from "@/components/MiracleMark";
 import AssemblyJourney from "@/components/AssemblyJourney";
+import DrawingSet from "@/components/DrawingSet";
+import PassportStamps from "@/components/PassportStamps";
+import PlotterHero from "@/components/PlotterHero";
 import {
   DroneSketch,
   LineFollowerSketch,
@@ -42,6 +43,12 @@ export const metadata: Metadata = {
 const revisionOf = (i: number) => String.fromCharCode(65 + timeline.length - 1 - i);
 const currentRevision = revisionOf(0);
 const firstYear = timeline[timeline.length - 1].year;
+
+// The tagline breaks after its first comma: one line per pass of the plotter.
+const taglineLines = (() => {
+  const i = profile.tagline.indexOf(",");
+  return i === -1 ? [profile.tagline] : [profile.tagline.slice(0, i + 1), profile.tagline.slice(i + 1).trim()];
+})();
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
 
@@ -88,10 +95,16 @@ export default function Home() {
   return (
     <>
       {/* Hero: a blueprint sheet. Every drafting mark carries a real fact. */}
-      <section className="blueprint">
-        <Container className="pb-12 pt-12 sm:pb-16 sm:pt-16">
-          <h1 className="ink-in max-w-[18ch] font-serif text-5xl leading-[1.02] sm:text-7xl lg:text-8xl">
-            {profile.tagline}
+      <section className="blueprint relative">
+        <PlotterHero />
+        <Container className="pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pt-20">
+          {/* On large screens each line is written in by the plotter. */}
+          <h1 className="ink-in max-w-[18ch] font-serif text-5xl leading-[1.02] sm:text-7xl lg:flex lg:max-w-none lg:flex-col lg:items-start lg:text-8xl">
+            {taglineLines.map((line) => (
+              <span key={line} data-pen-line className="pen-line">
+                {line}{" "}
+              </span>
+            ))}
           </h1>
 
           <div className="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-10">
@@ -215,18 +228,11 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section
-        title="Prototypes"
+      <DrawingSet
+        projects={projects}
         intro="Working machines, each aimed at a real problem in Bangladesh."
-        action={{ label: "Competition robots and more builds", href: "/work" }}
         aside={<DroneSketch className="text-text" />}
-      >
-        <div className="grid gap-x-10 gap-y-14 px-2 sm:grid-cols-2">
-          {projects.map((p) => (
-            <ProjectPlate key={p.slug} project={p} />
-          ))}
-        </div>
-      </Section>
+      />
 
       <Section
         id="services"
@@ -272,7 +278,7 @@ export default function Home() {
         action={{ label: "All awards", href: "/awards" }}
         aside={<TrophyBotSketch className="max-w-[11rem] text-text" />}
       >
-        <AwardList items={awards.slice(0, 4)} />
+        <PassportStamps items={awards.slice(0, 4)} />
       </Section>
 
       {/* Miracle Robotics: the company gets its own cut panel in brand navy. */}
