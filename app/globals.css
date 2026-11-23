@@ -51,6 +51,7 @@
   --color-signal: var(--signal);
 
   --font-sans: var(--font-archivo);
+  --font-serif: var(--font-instrument-serif);
 }
 
 @layer base {

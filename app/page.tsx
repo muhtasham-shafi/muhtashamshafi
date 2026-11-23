@@ -56,7 +56,7 @@ export default function Home() {
       {/* Hero: the one loud moment on the page. */}
       <section className="border-b border-line">
         <Container className="pb-16 pt-12 sm:pb-20 sm:pt-16">
-          <h1 className="assemble type-display max-w-[15ch] text-[clamp(2.75rem,9.2vw,7rem)]">{profile.tagline}</h1>
+          <h1 className="assemble max-w-[18ch] font-serif text-5xl leading-[1.02] sm:text-7xl lg:text-8xl">{profile.tagline}</h1>
 
           <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-12">
             <div className="assemble lg:col-span-7 lg:col-start-6" style={{ "--d": "140ms" } as React.CSSProperties}>
