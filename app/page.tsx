@@ -24,6 +24,14 @@ import {
   Section,
 } from "@/components/ui";
 import MiracleMark from "@/components/MiracleMark";
+import AssemblyJourney from "@/components/AssemblyJourney";
+import {
+  DroneSketch,
+  LineFollowerSketch,
+  PrinterSketch,
+  TrophyBotSketch,
+  WavingRobotSketch,
+} from "@/components/Sketches";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -37,11 +45,12 @@ const firstYear = timeline[timeline.length - 1].year;
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
 
-// Callouts on the hero photo. `top` is where the leader meets the photo.
+// Notes beside the hero photo. Leaders stop at the frame, never on the face;
+// `top` is the height on the frame where each leader lands.
 const callouts: { top: string; key: string; value: React.ReactNode; now?: boolean }[] = [
-  { top: "34%", key: "Latest", value: `${heroBadge.label}, ${heroBadge.detail}`, now: true },
+  { top: "18%", key: "Latest", value: `${heroBadge.label}, ${heroBadge.detail}`, now: true },
   {
-    top: "60%",
+    top: "50%",
     key: "Founder",
     value: (
       <Link href="/miracle-robotics" className="link hover:text-white!">
@@ -49,7 +58,7 @@ const callouts: { top: string; key: string; value: React.ReactNode; now?: boolea
       </Link>
     ),
   },
-  { top: "84%", key: "FIRST Global", value: `${stats[1].value} for Team Bangladesh` },
+  { top: "80%", key: "FIRST Global", value: `${stats[1].value} for Team Bangladesh` },
 ];
 
 const titleBlock: { key: string; value: React.ReactNode; wide?: boolean }[] = [
@@ -75,25 +84,13 @@ function Arrow({ flip }: { flip?: boolean }) {
   );
 }
 
-/** A revision delta, as drawn in a title block's revision table. */
-function Delta({ letter, now }: { letter: string; now?: boolean }) {
-  return (
-    <svg viewBox="0 0 30 26" className={`h-8 w-9 ${now ? "text-signal" : "text-text"}`} role="img" aria-label={`Revision ${letter}`}>
-      <path d="M15 1.5 28.5 24.5h-27z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <text x="15" y="20" textAnchor="middle" fontSize="11" fontWeight="700" fill="currentColor">
-        {letter}
-      </text>
-    </svg>
-  );
-}
-
 export default function Home() {
   return (
     <>
       {/* Hero: a blueprint sheet. Every drafting mark carries a real fact. */}
       <section className="blueprint">
         <Container className="pb-12 pt-12 sm:pb-16 sm:pt-16">
-          <h1 className="assemble max-w-[18ch] font-serif text-5xl leading-[1.02] sm:text-7xl lg:text-8xl">
+          <h1 className="ink-in max-w-[18ch] font-serif text-5xl leading-[1.02] sm:text-7xl lg:text-8xl">
             {profile.tagline}
           </h1>
 
@@ -146,8 +143,8 @@ export default function Home() {
                 {callouts.map((c, i) => (
                   <div
                     key={c.key}
-                    className="invisible absolute flex -translate-y-1/2 items-center sm:visible"
-                    style={{ top: c.top, left: "27%", right: 0 }}
+                    className="absolute hidden -translate-y-1/2 items-center sm:flex"
+                    style={{ top: c.top, left: "calc(58% - 2px)", right: 0 }}
                   >
                     <span
                       aria-hidden
@@ -199,7 +196,7 @@ export default function Home() {
         </Container>
       </section>
 
-      <Section id="about" title="About">
+      <Section id="about" title="About" aside={<LineFollowerSketch className="text-text" />}>
         <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_14rem]">
           <div className="max-w-[62ch] space-y-5 text-lg">
             {profile.bio.map((p) => (
@@ -222,6 +219,7 @@ export default function Home() {
         title="Prototypes"
         intro="Working machines, each aimed at a real problem in Bangladesh."
         action={{ label: "Competition robots and more builds", href: "/work" }}
+        aside={<DroneSketch className="text-text" />}
       >
         <div className="grid gap-x-10 gap-y-14 px-2 sm:grid-cols-2">
           {projects.map((p) => (
@@ -269,7 +267,11 @@ export default function Home() {
         ))}
       </Section>
 
-      <Section title="Awards" action={{ label: "All awards", href: "/awards" }}>
+      <Section
+        title="Awards"
+        action={{ label: "All awards", href: "/awards" }}
+        aside={<TrophyBotSketch className="max-w-[11rem] text-text" />}
+      >
         <AwardList items={awards.slice(0, 4)} />
       </Section>
 
@@ -278,9 +280,12 @@ export default function Home() {
         <Container>
           <div className="chamfer grid overflow-hidden bg-navy text-on-navy [--cut:36px] lg:grid-cols-12">
             <div className="p-8 sm:p-12 lg:col-span-7">
-              <span className="chamfer grid h-16 w-16 place-items-center bg-white [--cut:10px]">
-                <MiracleMark className="h-8 w-auto" />
-              </span>
+              <div className="flex items-start justify-between gap-6">
+                <span className="chamfer grid h-16 w-16 shrink-0 place-items-center bg-white [--cut:10px]">
+                  <MiracleMark className="h-8 w-auto" />
+                </span>
+                <PrinterSketch className="-mt-2 w-36 text-white sm:w-44" />
+              </div>
               <h2 className="type-display mt-8 text-[clamp(2.25rem,5.5vw,3.75rem)]">{miracleRobotics.name}</h2>
               <p className="mt-4 max-w-[40ch] text-xl">{miracleRobotics.oneLiner}</p>
               <p className="mt-4 max-w-[56ch] text-on-navy/75">{miracleRobotics.mission}</p>
@@ -300,55 +305,45 @@ export default function Home() {
                 About Miracle Robotics
               </Link>
             </div>
-            <div className="relative min-h-72 lg:col-span-5">
-              <Image
-                src={miracleRobotics.image}
-                alt="The Miracle Robotics workshop"
-                fill
-                sizes="(min-width: 1024px) 460px, 100vw"
-                className="object-cover"
-              />
+            {/* Printed in, layer by layer, as it scrolls into view. */}
+            <div className="print-in min-h-72 bg-[#031d52] lg:col-span-5">
+              <div className="print-body">
+                <Image
+                  src={miracleRobotics.image}
+                  alt="The Miracle Robotics workshop"
+                  fill
+                  sizes="(min-width: 1024px) 460px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <div aria-hidden className="print-layers" />
+              <div aria-hidden className="print-nozzle" />
             </div>
           </div>
         </Container>
       </section>
 
-      <Section
-        id="journey"
-        title="Revision history"
-        intro={`How I got here: each year a new revision, from ${revisionOf(timeline.length - 1)} in ${firstYear} to ${currentRevision} today.`}
-      >
-        <div aria-hidden className="type-label hidden grid-cols-[3rem_4.5rem_minmax(0,1fr)_10rem] gap-6 border-b border-text/60 pb-2 text-sm text-muted sm:grid">
-          <span>Rev</span>
-          <span>Year</span>
-          <span>Change</span>
-        </div>
-        <ol className="border-b border-line">
-          {timeline.map((t, i) => (
-            <li
-              key={t.year}
-              className="grid grid-cols-[3rem_minmax(0,1fr)] gap-x-4 gap-y-4 border-t border-line py-6 first:border-t-0 sm:grid-cols-[3rem_4.5rem_minmax(0,1fr)_10rem] sm:gap-x-6"
-            >
-              <Delta letter={revisionOf(i)} now={i === 0} />
-              <p className="type-heading self-center text-2xl tabular-nums sm:self-start sm:pt-0.5 sm:text-xl">{t.year}</p>
-              <div className="col-span-2 sm:col-span-1">
-                <h3 className="text-lg font-semibold leading-snug">{t.title}</h3>
-                <p className="mt-1 max-w-[56ch] text-muted">{t.text}</p>
-              </div>
-              <div className="relative col-span-2 aspect-[4/3] max-w-[16rem] overflow-hidden bg-surface sm:col-span-1 sm:max-w-none">
-                <Image src={t.image} alt={t.title} fill sizes="(min-width: 640px) 160px, 256px" className="object-cover" />
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Section>
+      {/* The journey as an assembly drawing: one part of the arm per year. */}
+      <section id="journey" className="blueprint scroll-mt-16">
+        <Container className="pb-10 pt-20 sm:pt-24">
+          <h2 className="font-serif text-[clamp(2.75rem,7vw,5rem)] leading-none">Revision history</h2>
+          <p className="mt-4 max-w-[52ch] text-lg text-white/75">
+            How I got here, one part at a time: revision A in {firstYear}, revision {currentRevision} today. Scroll to
+            build the arm.
+          </p>
+          <div className="mt-10">
+            <AssemblyJourney entries={[...timeline].reverse()} />
+          </div>
+        </Container>
+      </section>
 
       <Section title="Writing" action={{ label: "All posts", href: "/writing" }}>
         <PostList items={sortedPosts().slice(0, 3)} />
       </Section>
 
       <section id="contact" className="scroll-mt-20 border-t border-line">
-        <Container className="py-20 sm:py-28">
+        <Container className="relative py-20 sm:py-28">
+          <WavingRobotSketch className="mb-6 w-40 text-text sm:w-48 lg:absolute lg:right-8 lg:top-14 lg:mb-0 lg:w-64" />
           <h2 className="font-serif text-[clamp(2.75rem,7vw,4.5rem)] leading-none">Let&apos;s build something.</h2>
           <p className="mt-4 max-w-[52ch] text-lg text-muted">
             Hiring, partnering, investing, or just want to talk robots? Email is the fastest way to reach me.

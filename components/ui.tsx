@@ -19,12 +19,15 @@ export function Section({
   title,
   intro,
   action,
+  aside,
   children,
 }: {
   id?: string;
   title: string;
   intro?: string;
   action?: { label: string; href: string };
+  /** A sketch or note that sits under the title in the gutter. */
+  aside?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -39,6 +42,7 @@ export function Section({
                 <TextLink href={action.href}>{action.label}</TextLink>
               </p>
             )}
+            {aside && <div className="mt-8 w-full max-w-[13rem] lg:mt-12 lg:max-w-[16rem]">{aside}</div>}
           </div>
         </header>
         <div className="min-w-0 lg:col-span-8">{children}</div>

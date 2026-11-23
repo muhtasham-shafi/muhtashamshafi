@@ -170,45 +170,301 @@
 }
 
 /*
- * Cyanotype plates: the photo in greyscale with navy screened over it, so
- * shadows print blue and highlights stay white. Hover or focus develops the
- * real photo; touch screens show the real photo straight away.
+ * Cyanotype plates: each photo enters as a blueprint print (greyscale with
+ * navy screened over it) and develops into the real photo as it scrolls
+ * towards the middle of the screen. Browsers without scroll-driven
+ * animations, and reduced motion, show the real photo.
  */
 .cyanotype {
   position: relative;
   overflow: hidden;
   background: #052c77;
-  & img {
-    filter: grayscale(1) contrast(1.15) brightness(1.05);
-    transition: filter 500ms ease;
-  }
   &::after {
     content: "";
     position: absolute;
     inset: 0;
     background: #052c77;
     mix-blend-mode: screen;
-    transition: opacity 500ms ease;
+    opacity: 0;
     pointer-events: none;
   }
 }
-@media (hover: hover) {
-  .group:hover .cyanotype img,
-  .group:focus-within .cyanotype img {
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* A named timeline on the plate: its own overflow box would otherwise
+       become the scroller that view() measures against. */
+    .cyanotype {
+      view-timeline: --develop block;
+    }
+    .cyanotype img {
+      animation: develop-photo linear both;
+      animation-timeline: --develop;
+      animation-range: entry 25% contain 40%;
+    }
+    .cyanotype::after {
+      animation: develop-wash linear both;
+      animation-timeline: --develop;
+      animation-range: entry 25% contain 40%;
+    }
+  }
+}
+@keyframes develop-photo {
+  from {
+    filter: grayscale(1) contrast(1.15) brightness(1.05);
+  }
+  to {
     filter: none;
   }
-  .group:hover .cyanotype::after,
-  .group:focus-within .cyanotype::after {
+}
+@keyframes develop-wash {
+  from {
+    opacity: 1;
+  }
+  to {
     opacity: 0;
   }
 }
-@media (hover: none) {
-  .cyanotype img {
-    filter: none;
+
+/*
+ * 3D-print reveal: the image builds up from the bottom, layer by layer, as
+ * it scrolls into view, with the nozzle line riding the top layer.
+ */
+.print-in {
+  position: relative;
+  overflow: hidden;
+  & .print-body {
+    position: absolute;
+    inset: 0;
   }
-  .cyanotype::after {
+  & .print-layers,
+  & .print-nozzle {
+    display: none;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .print-in {
+      view-timeline: --print block;
+      & .print-body {
+        animation: print-build linear both;
+        animation-timeline: --print;
+        animation-range: entry 5% contain 0%;
+      }
+      & .print-layers {
+        display: block;
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(to bottom, rgb(5 44 119 / 0.35) 0 1px, transparent 1px 4px);
+        pointer-events: none;
+        animation: print-settle linear both;
+        animation-timeline: --print;
+        animation-range: contain 0% contain 15%;
+      }
+      & .print-nozzle {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #ff5a6a;
+        box-shadow: 0 0 12px 2px rgb(255 90 106 / 0.7);
+        pointer-events: none;
+        animation: print-nozzle linear both;
+        animation-timeline: --print;
+        animation-range: entry 5% contain 0%;
+      }
+    }
+  }
+}
+@keyframes print-build {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes print-nozzle {
+  from {
+    top: 100%;
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  to {
+    top: 0;
     opacity: 0;
   }
+}
+@keyframes print-settle {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * Hand-drawn sketches: ink lines in the text colour, Miracle blue marker
+ * fills set off-register, red for the parts that are "on". They draw
+ * themselves in as they scroll into view.
+ */
+.sketch {
+  overflow: visible;
+  & .sk-ink {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  & .sk-thin {
+    stroke-width: 1.5;
+  }
+  & .sk-thick {
+    stroke-width: 7;
+    opacity: 0.85;
+  }
+  & .sk-blue {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  & .sk-dash {
+    stroke-dasharray: 5 5;
+  }
+  & .sk-fill {
+    fill: var(--accent);
+    fill-opacity: 0.22;
+  }
+  & .sk-red {
+    fill: var(--signal);
+  }
+  & .sk-red-line {
+    fill: none;
+    stroke: var(--signal);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  & .sk-dot {
+    fill: currentColor;
+  }
+  & .sk-note {
+    font-family: var(--font-instrument-serif), serif;
+    font-size: 17px;
+    fill: currentColor;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sketch {
+      view-timeline: --sketch block;
+      & :is(.sk-ink, .sk-blue, .sk-red-line):not(.sk-dash) {
+        stroke-dasharray: 700;
+        animation: sketch-draw linear both;
+        animation-timeline: --sketch;
+        animation-range: entry 10% contain 35%;
+      }
+      & :is(.sk-fill, .sk-red, .sk-dot, .sk-note, .sk-dash) {
+        animation: sketch-colour linear both;
+        animation-timeline: --sketch;
+        animation-range: contain 15% contain 40%;
+      }
+    }
+  }
+}
+@keyframes sketch-draw {
+  from {
+    stroke-dashoffset: 700;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes sketch-colour {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Headline: drafted in outline, then inked in. */
+@media (prefers-reduced-motion: no-preference) {
+  .ink-in {
+    -webkit-text-stroke: 1px #f4f6fa;
+    animation: ink 1100ms ease-out 250ms both;
+  }
+}
+@keyframes ink {
+  from {
+    -webkit-text-fill-color: transparent;
+  }
+  to {
+    -webkit-text-fill-color: #f4f6fa;
+  }
+}
+
+/* The assembly drawing in the journey section. */
+.arm-part {
+  fill: rgb(255 255 255 / 0.07);
+  stroke: #f4f6fa;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  & .arm-detail {
+    fill: none;
+    stroke-width: 1;
+    opacity: 0.75;
+  }
+}
+.arm-ghost {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.arm-centre {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.3);
+  stroke-width: 1;
+  stroke-dasharray: 16 4 2 4;
+}
+.arm-ground {
+  stroke: rgb(255 255 255 / 0.6);
+  stroke-width: 1.5;
+}
+.arm-hatch {
+  stroke: rgb(255 255 255 / 0.3);
+  stroke-width: 1;
+}
+.arm-tag {
+  & path {
+    fill: #052c77;
+    stroke: #f4f6fa;
+    stroke-width: 1.25;
+    stroke-linejoin: round;
+  }
+  & text {
+    fill: #f4f6fa;
+    font-size: 10px;
+    font-weight: 700;
+  }
+}
+.arm-tag-now {
+  & path {
+    stroke: #ff5a6a;
+  }
+  & text {
+    fill: #ff5a6a;
+  }
+}
+.arm-live > g {
+  /* t runs 0 → 1 while this part's year passes the reading line. */
+  --t: clamp(0, (var(--p, 0) * var(--n, 1) - var(--i, 0)) * 1.6, 1);
+  transform: translate(calc((1 - var(--t)) * var(--dx, 0) * 1px), calc((1 - var(--t)) * var(--dy, 0) * 1px));
+  opacity: calc(0.3 + var(--t) * 0.7);
 }
 
 /* Leader lines and dimension lines draw themselves as the hero assembles. */
