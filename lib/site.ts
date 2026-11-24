@@ -7,14 +7,17 @@ import type { Metadata } from "next";
  */
 export const siteUrl = "https://www.muhtashamshafi.com";
 
+/** The name shown in Google results and browser tabs. */
+export const siteName = "Muhtasham Musharof Shafi";
+
 /**
  * Shared social-preview settings. A page that sets its own `openGraph`
  * replaces the layout's whole object, so spread these in and override `url`.
  */
 export const openGraphDefaults = {
-  title: "Muhtasham M. Shafi",
+  title: siteName,
   description: "Robotics, AI & Software Projects",
-  siteName: "Muhtasham M. Shafi Portfolio",
+  siteName,
   type: "website",
   locale: "en_US",
   images: [{ url: "/og-v2.png", width: 1200, height: 630 }],

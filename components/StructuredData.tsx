@@ -1,5 +1,5 @@
 import { miracleRobotics, profile, socials } from "@/lib/content";
-import { siteUrl } from "@/lib/site";
+import { siteName, siteUrl } from "@/lib/site";
 
 /**
  * Schema.org data so search engines understand who the site is about —
@@ -19,14 +19,15 @@ const graph = {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: siteUrl,
-      name: profile.name,
+      name: siteName,
+      alternateName: [profile.fullName, profile.name],
       publisher: { "@id": personId },
     },
     {
       "@type": "Person",
       "@id": personId,
       name: profile.fullName,
-      alternateName: [profile.name, "Muhtasham Shafi", "Md. Muhtasham Musharof Shafi"],
+      alternateName: [siteName, profile.name, "Muhtasham Shafi", "Md. Muhtasham Musharof Shafi"],
       url: siteUrl,
       image: `${siteUrl}${profile.photo}`,
       jobTitle: "Founder, Miracle Robotics",

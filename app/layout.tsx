@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StructuredData from "@/components/StructuredData";
 import { themeScript } from "@/lib/theme";
-import { openGraphDefaults, siteUrl } from "@/lib/site";
+import { openGraphDefaults, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -27,8 +27,8 @@ const instrumentSerif = Instrument_Serif({
 
 export const metadata: Metadata = {
   title: {
-    default: "Muhtasham M. Shafi | Student Innovator & Developer",
-    template: "%s | Muhtasham M. Shafi",
+    default: `${siteName} | Student Innovator & Developer`,
+    template: `%s | ${siteName}`,
   },
   description:
     "Portfolio of Md Muhtasham Musharof Shafi — young Bangladeshi engineer building robotics, AI, and software for real-world impact. Founder of Miracle Robotics.",
