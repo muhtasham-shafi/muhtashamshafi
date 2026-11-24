@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/writing" },
   openGraph: { ...openGraphDefaults, url: "/writing" },
   title: "Writing & press",
-  description: "Notes, updates and press coverage from Muhtasham Shafi.",
+  description: "Notes, updates and press coverage from Muhtasham M. Shafi.",
 };
 
 export default function WritingPage() {

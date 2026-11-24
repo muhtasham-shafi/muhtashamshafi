@@ -69,7 +69,7 @@ const callouts: { top: string; key: string; value: React.ReactNode; now?: boolea
 ];
 
 const titleBlock: { key: string; value: React.ReactNode; wide?: boolean }[] = [
-  { key: "Drawn by", value: profile.name },
+  { key: "Drawn by", value: profile.fullName },
   { key: "Location", value: profile.location },
   { key: stats[2].label, value: stats[2].value },
   {
@@ -144,7 +144,7 @@ export default function Home() {
                 >
                   <Image
                     src={profile.photo}
-                    alt={`${profile.name} speaking`}
+                    alt={`${profile.fullName} speaking`}
                     fill
                     priority
                     sizes="(min-width: 1024px) 380px, (min-width: 640px) 340px, 100vw"
@@ -219,7 +219,7 @@ export default function Home() {
           <div className="relative aspect-[4/5] overflow-hidden rounded-[3px] bg-surface md:self-start">
             <Image
               src={profile.photoAlt}
-              alt={`${profile.name} at work`}
+              alt={`${profile.fullName} at work`}
               fill
               sizes="(min-width: 768px) 224px, 100vw"
               className="object-cover"

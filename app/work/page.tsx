@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/work" },
   openGraph: { ...openGraphDefaults, url: "/work" },
   title: "Work",
-  description: "Robotics, AI and web projects by Muhtasham Shafi.",
+  description: "Robotics, AI and web projects by Muhtasham M. Shafi.",
 };
 
 export default function WorkPage() {

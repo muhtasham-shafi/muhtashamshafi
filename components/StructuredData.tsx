@@ -25,8 +25,8 @@ const graph = {
     {
       "@type": "Person",
       "@id": personId,
-      name: profile.name,
-      alternateName: "Md. Muhtasham Musharof Shafi",
+      name: profile.fullName,
+      alternateName: [profile.name, "Muhtasham Shafi", "Md. Muhtasham Musharof Shafi"],
       url: siteUrl,
       image: `${siteUrl}${profile.photo}`,
       jobTitle: "Founder, Miracle Robotics",

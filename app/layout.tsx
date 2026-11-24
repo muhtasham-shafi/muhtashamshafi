@@ -27,11 +27,11 @@ const instrumentSerif = Instrument_Serif({
 
 export const metadata: Metadata = {
   title: {
-    default: "Muhtasham Shafi | Student Innovator & Developer",
-    template: "%s | Muhtasham Shafi",
+    default: "Muhtasham M. Shafi | Student Innovator & Developer",
+    template: "%s | Muhtasham M. Shafi",
   },
   description:
-    "Portfolio of Muhtasham Shafi — young Bangladeshi engineer building robotics, AI, and software for real-world impact. Founder of Miracle Robotics.",
+    "Portfolio of Md Muhtasham Musharof Shafi — young Bangladeshi engineer building robotics, AI, and software for real-world impact. Founder of Miracle Robotics.",
 
   metadataBase: new URL(siteUrl),
 

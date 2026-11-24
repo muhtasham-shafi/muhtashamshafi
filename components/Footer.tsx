@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-navy text-on-navy">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-[1fr_auto] md:items-end">
         <div>
-          <p className="type-heading text-2xl">{profile.name}</p>
+          <p className="type-heading text-2xl">{profile.fullName}</p>
           <p className="mt-2 text-on-navy/70">
             Founder of{" "}
             <Link href="/miracle-robotics" className="link text-on-navy hover:text-white!">
@@ -25,7 +25,7 @@ export default function Footer() {
           ))}
         </ul>
         <p className="type-label text-sm text-on-navy/60 md:col-span-2">
-          © {new Date().getFullYear()} {profile.name}
+          © {new Date().getFullYear()} {profile.fullName}
         </p>
       </div>
     </footer>

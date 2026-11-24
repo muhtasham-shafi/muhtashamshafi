@@ -12,9 +12,9 @@ export const siteUrl = "https://www.muhtashamshafi.com";
  * replaces the layout's whole object, so spread these in and override `url`.
  */
 export const openGraphDefaults = {
-  title: "Muhtasham Shafi",
+  title: "Muhtasham M. Shafi",
   description: "Robotics, AI & Software Projects",
-  siteName: "Muhtasham Shafi Portfolio",
+  siteName: "Muhtasham M. Shafi Portfolio",
   type: "website",
   locale: "en_US",
   images: [{ url: "/og-v2.png", width: 1200, height: 630 }],

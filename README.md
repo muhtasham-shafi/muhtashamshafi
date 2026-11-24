@@ -1,6 +1,6 @@
 # muhtashamshafi.com
 
-Personal site of Muhtasham Shafi — robotics, AI and web projects, and Miracle Robotics.
+Personal site of Muhtasham M. Shafi — robotics, AI and web projects, and Miracle Robotics.
 
 Built with Next.js 16 (App Router), React 19 and Tailwind CSS 4. Deployed on Vercel.
 

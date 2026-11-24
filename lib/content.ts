@@ -4,7 +4,9 @@
  */
 
 export const profile = {
-  name: "Muhtasham Shafi",
+  name: "Muhtasham M. Shafi",
+  /** Full name, used wherever there's room (footer, title block, search data). */
+  fullName: "Md Muhtasham Musharof Shafi",
   role: "Student innovator · Robotics & AI",
   location: "Dhaka, Bangladesh",
   tagline: "Building the future, one prototype at a time.",
